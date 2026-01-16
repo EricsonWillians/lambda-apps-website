@@ -1,0 +1,372 @@
+:root {
+    --color-void: #000000;
+    --color-luma: #FFFFFF;
+    --font-main: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --grid-gap: 20px;
+    --easing: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    cursor: none;
+    /* Custom cursor handling */
+}
+
+body {
+    background-color: var(--color-void);
+    color: var(--color-luma);
+    font-family: var(--font-main);
+    overflow-x: hidden;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Cursor */
+#cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background: var(--color-luma);
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s;
+}
+
+#cursor-follower {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--color-luma);
+    pointer-events: none;
+    z-index: 9998;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s var(--easing);
+}
+
+/* Typography */
+h1,
+h2,
+h3 {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.05em;
+}
+
+a {
+    color: var(--color-luma);
+    text-decoration: none;
+    font-family: var(--font-mono);
+}
+
+/* Layout */
+.grid-layout {
+    padding: 0 40px;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    mix-blend-mode: difference;
+}
+
+.logo {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+nav a {
+    margin-left: 30px;
+    font-size: 0.9rem;
+    position: relative;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--color-luma);
+    transition: width 0.3s var(--easing);
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* Hero Section */
+.fullscreen-section {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hero-content h1 {
+    font-size: 8vw;
+    line-height: 0.9;
+    position: relative;
+    font-family: var(--font-mono);
+    /* Monospace for perfect alignment */
+}
+
+.hero-sub {
+    font-family: var(--font-mono);
+    margin-top: 1rem;
+    font-size: calc(8vw / 3);
+    /* 13 chars * 3 = 39 chars. Exact width match. */
+    letter-spacing: -0.05em;
+    /* Match header spacing */
+    opacity: 0.8;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+}
+
+.scroll-indicator .line {
+    width: 40px;
+    height: 1px;
+    background: var(--color-luma);
+}
+
+/* Portfolio Grid */
+#portfolio {
+    padding-top: 120px;
+    padding-bottom: 120px;
+}
+
+.section-header {
+    margin-bottom: 60px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.section-header h2 {
+    font-size: 3rem;
+}
+
+.separator {
+    flex-grow: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.project-card {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.4s var(--easing), border-color 0.4s var(--easing);
+    position: relative;
+    aspect-ratio: 4/5;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card:hover {
+    border-color: var(--color-luma);
+    transform: translateY(-5px);
+}
+
+.project-image-placeholder {
+    flex-grow: 1;
+    background: #111;
+    background-image: radial-gradient(#333 1px, transparent 1px);
+    background-size: 20px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-info {
+    padding: 20px;
+}
+
+.project-info h3 {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.project-info p {
+    font-size: 0.9rem;
+    color: #999;
+}
+
+/* Contact */
+#contact {
+    padding: 100px 40px;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.big-link {
+    font-size: 5vw;
+    font-weight: 900;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 10px;
+    transition: color 0.3s;
+}
+
+.big-link:hover {
+    background: var(--color-luma);
+    color: var(--color-void);
+}
+
+footer {
+    padding: 40px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0.5;
+}
+
+/* Glitch Effect (Simplistic) */
+.glitch {
+    position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-void);
+}
+
+.glitch::before {
+    left: 2px;
+    text-shadow: -1px 0 red;
+    clip: rect(24px, 900px, 90px, 0);
+    /* Increased width safety */
+    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    left: -2px;
+    text-shadow: -1px 0 blue;
+    clip: rect(85px, 900px, 140px, 0);
+    /* Increased width safety */
+    animation: glitch-anim 2.5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+    0% {
+        clip: rect(10px, 9999px, 30px, 0);
+    }
+
+    20% {
+        clip: rect(80px, 9999px, 100px, 0);
+    }
+
+    40% {
+        clip: rect(10px, 9999px, 140px, 0);
+    }
+
+    60% {
+        clip: rect(50px, 9999px, 80px, 0);
+    }
+
+    80% {
+        clip: rect(130px, 9999px, 150px, 0);
+    }
+
+    100% {
+        clip: rect(40px, 9999px, 110px, 0);
+    }
+}
+
+@keyframes glitch-anim-2 {
+    0% {
+        clip: rect(60px, 9999px, 90px, 0);
+    }
+
+    20% {
+        clip: rect(10px, 9999px, 40px, 0);
+    }
+
+    40% {
+        clip: rect(90px, 9999px, 130px, 0);
+    }
+
+    60% {
+        clip: rect(20px, 9999px, 60px, 0);
+    }
+
+    80% {
+        clip: rect(140px, 9999px, 170px, 0);
+    }
+
+    100% {
+        clip: rect(30px, 9999px, 70px, 0);
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .grid-layout {
+        padding: 0 20px;
+    }
+
+    .hero-content h1 {
+        font-size: 15vw;
+    }
+
+    header {
+        height: 60px;
+    }
+
+    nav {
+        display: none;
+    }
+
+    /* TODO: Mobile Menu */
+    .big-link {
+        font-size: 10vw;
+    }
+}
