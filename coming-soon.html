@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON VECTOR // PENDING</title>
+    <meta name="description" content="What survives subtraction.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .hero-sub {
+            font-size: calc(8vw / 2.5);
+            /* Slight adjustment for different text length */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+
+    <header class="grid-layout">
+        <div class="logo"><a href="index.html">LAMBDA // APPS</a></div>
+        <nav>
+            <a href="index.html" class="nav-link" data-hover>RETURN</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="fullscreen-section grid-layout">
+            <div class="hero-content">
+                <h1 class="glitch" data-text="| CALCULATING |"
+                    style="line-height: 1.05; white-space: pre; text-align: center; letter-spacing: 0;">| CALCULATING |
+                </h1>
+                <h1 class="glitch" data-text="|  VARIABLES  |"
+                    style="line-height: 1.05; white-space: pre; text-align: center; letter-spacing: 0;">| VARIABLES |
+                </h1>
+                <p class="hero-sub" style="font-size: calc(8vw / 3.5);">THE SUM IS NOT YET COMPLETE.</p>
+            </div>
+
+            <div
+                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.05; pointer-events: none; z-index: -1; width: 800px; height: 800px; display: flex; align-items: center; justify-content: center;">
+                <svg width="100%" height="100%" viewBox="0 0 100 100">
+                    <polygon points="50,15 90,85 10,85" stroke="white" stroke-width="0.5" fill="none" />
+                </svg>
+            </div>
+
+            <div class="scroll-indicator">
+                <span>SUBTRACTION IMMINENT</span>
+                <div class="line"></div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
