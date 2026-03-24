@@ -508,10 +508,11 @@
             
         } catch (error) {
             console.error('GitHub fetch error:', error);
+            const t = typeof I18N !== 'undefined' ? I18N.t : (key) => key;
             githubGrid.innerHTML = `
                 <div class="github-error">
-                    <p>Unable to load repositories.</p>
-                    <a href="https://github.com/${GITHUB_USERNAME}" target="_blank">View on GitHub →</a>
+                    <p>${t('github.error') || 'Unable to load repositories.'}</p>
+                    <a href="https://github.com/${GITHUB_USERNAME}" target="_blank">${t('github.viewOnGithub') || 'View on GitHub →'}</a>
                 </div>
             `;
         }
@@ -547,10 +548,13 @@
         const diffTime = Math.abs(now - date);
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         
-        if (diffDays === 1) return 'yesterday';
-        if (diffDays < 30) return `${diffDays} days ago`;
-        if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
-        return `${Math.floor(diffDays / 365)} years ago`;
+        // Use I18N if available, otherwise fallback to English
+        const t = typeof I18N !== 'undefined' ? I18N.t : (key) => key;
+        
+        if (diffDays === 1) return t('github.timeAgo.yesterday') || 'yesterday';
+        if (diffDays < 30) return `${diffDays} ${t('github.timeAgo.days') || 'days ago'}`;
+        if (diffDays < 365) return `${Math.floor(diffDays / 30)} ${t('github.timeAgo.months') || 'months ago'}`;
+        return `${Math.floor(diffDays / 365)} ${t('github.timeAgo.years') || 'years ago'}`;
     }
     
     function renderRepos() {
@@ -560,14 +564,18 @@
         const endIndex = startIndex + REPOS_PER_PAGE;
         const reposToShow = allRepos.slice(startIndex, endIndex);
         
+        // Get translation function
+        const t = typeof I18N !== 'undefined' ? I18N.t : (key) => key;
+        
         if (reposToShow.length === 0) {
-            githubGrid.innerHTML = '<div class="github-error">No repositories found.</div>';
+            githubGrid.innerHTML = `<div class="github-error">${t('github.noRepos') || 'No repositories found.'}</div>`;
             return;
         }
         
         githubGrid.innerHTML = reposToShow.map(repo => {
             const langClass = langColors[repo.language] || 'github-lang-default';
-            const description = repo.description || 'No description available.';
+            const description = repo.description || t('github.noDescription') || 'No description available.';
+            const updatedText = t('github.updated') || 'Updated';
             
             return `
                 <article class="github-card" data-hover>
@@ -590,13 +598,18 @@
                                 ${repo.language}
                             </span>
                         ` : ''}
-                        <span class="github-card-updated">Updated ${formatDate(repo.updated_at)}</span>
+                        <span class="github-card-updated">${updatedText} ${formatDate(repo.updated_at)}</span>
                     </div>
                 </article>
             `;
         }).join('');
         
         updatePagination();
+        
+        // Re-apply translations to catch any new dynamic content
+        if (typeof I18N !== 'undefined') {
+            I18N.applyLanguage();
+        }
     }
     
     function updatePagination() {
@@ -652,6 +665,13 @@
     
     // Initial fetch
     fetchGitHubRepos();
+    
+    // Re-render on language change
+    window.addEventListener('languagechange', () => {
+        if (allRepos.length > 0) {
+            renderRepos();
+        }
+    });
 
     // ========================================================================
     // Console Message

@@ -587,6 +587,48 @@ const I18N = (function() {
                 ru: 'Обновлено',
                 zh: '更新于'
             },
+            timeAgo: {
+                yesterday: {
+                    en: 'yesterday',
+                    pt: 'ontem',
+                    es: 'ayer',
+                    de: 'gestern',
+                    ru: 'вчера',
+                    zh: '昨天'
+                },
+                days: {
+                    en: 'days ago',
+                    pt: 'dias atrás',
+                    es: 'días atrás',
+                    de: 'Tage her',
+                    ru: 'дней назад',
+                    zh: '天前'
+                },
+                months: {
+                    en: 'months ago',
+                    pt: 'meses atrás',
+                    es: 'meses atrás',
+                    de: 'Monate her',
+                    ru: 'месяцев назад',
+                    zh: '个月前'
+                },
+                years: {
+                    en: 'years ago',
+                    pt: 'anos atrás',
+                    es: 'años atrás',
+                    de: 'Jahre her',
+                    ru: 'лет назад',
+                    zh: '年前'
+                }
+            },
+            noRepos: {
+                en: 'No repositories found.',
+                pt: 'Nenhum repositório encontrado.',
+                es: 'No se encontraron repositorios.',
+                de: 'Keine Repositories gefunden.',
+                ru: 'Репозитории не найдены.',
+                zh: '未找到仓库。'
+            },
             pagination: {
                 previous: {
                     en: 'Previous',
