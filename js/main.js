@@ -196,6 +196,25 @@
     let lastScroll = 0;
     let ticking = false;
     let scrollIndicatorHidden = false;
+    let scrollIndicatorTimer = null;
+    
+    // Auto-hide scroll indicator after 5 seconds
+    function startScrollIndicatorTimer() {
+        if (scrollIndicatorTimer) clearTimeout(scrollIndicatorTimer);
+        scrollIndicatorTimer = setTimeout(() => {
+            if (!scrollIndicatorHidden && scrollIndicator) {
+                scrollIndicator.classList.add('hidden');
+                scrollIndicatorHidden = true;
+            }
+        }, 5000);
+    }
+    
+    // Start timer when page loads
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', startScrollIndicatorTimer);
+    } else {
+        startScrollIndicatorTimer();
+    }
     
     function updateHeader() {
         const currentScroll = window.pageYOffset;
@@ -213,6 +232,7 @@
         if (!scrollIndicatorHidden && scrollIndicator && currentScroll > hideThreshold) {
             scrollIndicator.classList.add('hidden');
             scrollIndicatorHidden = true;
+            if (scrollIndicatorTimer) clearTimeout(scrollIndicatorTimer);
         }
         
         lastScroll = currentScroll;
