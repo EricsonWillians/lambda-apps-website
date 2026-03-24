@@ -1097,42 +1097,6 @@ p {
     }
 }
 
-.service-arrow {
-    display: none;
-}
-
-@media (min-width: 768px) {
-    .service-arrow {
-        display: flex;
-        position: absolute;
-        bottom: var(--space-lg);
-        right: var(--space-lg);
-        width: 40px;
-        height: 40px;
-        align-items: center;
-        justify-content: center;
-        background: var(--color-border);
-        border-radius: 50%;
-        opacity: 0;
-        transform: translate(-10px, 10px);
-        transition: opacity var(--duration-normal), 
-                    transform var(--duration-normal),
-                    background var(--duration-normal);
-    }
-    
-    .service-card:hover .service-arrow {
-        opacity: 1;
-        transform: translate(0, 0);
-        background: var(--color-accent);
-    }
-    
-    .service-arrow svg {
-        width: 20px;
-        height: 20px;
-        color: var(--color-bg);
-    }
-}
-
 /* =================================================================
    Work Section - Mobile Optimized
    ================================================================= */
