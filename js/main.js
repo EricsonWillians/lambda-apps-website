@@ -452,9 +452,212 @@
     });
 
     // ========================================================================
+    // GitHub Repositories - Fetch, Sort & Pagination
+    // ========================================================================
+    const GITHUB_USERNAME = 'ericsonwillians';
+    const REPOS_PER_PAGE = 6;
+    
+    let allRepos = [];
+    let currentPage = 1;
+    let currentSort = 'stars';
+    
+    const githubGrid = document.getElementById('githubGrid');
+    const githubStats = document.getElementById('githubStats');
+    const sortSelect = document.getElementById('sortSelect');
+    const prevPageBtn = document.getElementById('prevPage');
+    const nextPageBtn = document.getElementById('nextPage');
+    const pageInfo = document.getElementById('pageInfo');
+    
+    // Language color mapping
+    const langColors = {
+        'JavaScript': 'github-lang-javascript',
+        'TypeScript': 'github-lang-typescript',
+        'Python': 'github-lang-python',
+        'HTML': 'github-lang-html',
+        'CSS': 'github-lang-css',
+        'Shell': 'github-lang-shell',
+        'Java': 'github-lang-java',
+        'Go': 'github-lang-go',
+        'Rust': 'github-lang-rust',
+        'C++': 'github-lang-cpp',
+        'C': 'github-lang-c',
+        'Ruby': 'github-lang-ruby',
+        'PHP': 'github-lang-php',
+        'Swift': 'github-lang-swift',
+        'Kotlin': 'github-lang-kotlin'
+    };
+    
+    async function fetchGitHubRepos() {
+        if (!githubGrid) return;
+        
+        try {
+            const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`);
+            
+            if (!response.ok) {
+                throw new Error('Failed to fetch repositories');
+            }
+            
+            allRepos = await response.json();
+            
+            // Filter out forks and update stats
+            allRepos = allRepos.filter(repo => !repo.fork);
+            updateStats();
+            
+            // Initial sort and render
+            sortAndRenderRepos();
+            
+        } catch (error) {
+            console.error('GitHub fetch error:', error);
+            githubGrid.innerHTML = `
+                <div class="github-error">
+                    <p>Unable to load repositories.</p>
+                    <a href="https://github.com/${GITHUB_USERNAME}" target="_blank">View on GitHub →</a>
+                </div>
+            `;
+        }
+    }
+    
+    function updateStats() {
+        const totalStars = allRepos.reduce((sum, repo) => sum + repo.stargazers_count, 0);
+        
+        const totalReposEl = document.getElementById('totalRepos');
+        const totalStarsEl = document.getElementById('totalStars');
+        
+        if (totalReposEl) totalReposEl.textContent = allRepos.length;
+        if (totalStarsEl) totalStarsEl.textContent = totalStars.toLocaleString();
+    }
+    
+    function sortRepos() {
+        switch (currentSort) {
+            case 'stars':
+                allRepos.sort((a, b) => b.stargazers_count - a.stargazers_count);
+                break;
+            case 'updated':
+                allRepos.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+                break;
+            case 'name':
+                allRepos.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+        }
+    }
+    
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = Math.abs(now - date);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays === 1) return 'yesterday';
+        if (diffDays < 30) return `${diffDays} days ago`;
+        if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
+        return `${Math.floor(diffDays / 365)} years ago`;
+    }
+    
+    function renderRepos() {
+        if (!githubGrid) return;
+        
+        const startIndex = (currentPage - 1) * REPOS_PER_PAGE;
+        const endIndex = startIndex + REPOS_PER_PAGE;
+        const reposToShow = allRepos.slice(startIndex, endIndex);
+        
+        if (reposToShow.length === 0) {
+            githubGrid.innerHTML = '<div class="github-error">No repositories found.</div>';
+            return;
+        }
+        
+        githubGrid.innerHTML = reposToShow.map(repo => {
+            const langClass = langColors[repo.language] || 'github-lang-default';
+            const description = repo.description || 'No description available.';
+            
+            return `
+                <article class="github-card" data-hover>
+                    <div class="github-card-header">
+                        <h3 class="github-card-title">
+                            <a href="${repo.html_url}" target="_blank" rel="noopener">${repo.name}</a>
+                        </h3>
+                        <span class="github-card-stars">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                            ${repo.stargazers_count.toLocaleString()}
+                        </span>
+                    </div>
+                    <p class="github-card-desc">${description}</p>
+                    <div class="github-card-meta">
+                        ${repo.language ? `
+                            <span class="github-card-lang">
+                                <span class="github-lang-color ${langClass}"></span>
+                                ${repo.language}
+                            </span>
+                        ` : ''}
+                        <span class="github-card-updated">Updated ${formatDate(repo.updated_at)}</span>
+                    </div>
+                </article>
+            `;
+        }).join('');
+        
+        updatePagination();
+    }
+    
+    function updatePagination() {
+        const totalPages = Math.ceil(allRepos.length / REPOS_PER_PAGE);
+        
+        if (pageInfo) {
+            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+        }
+        
+        if (prevPageBtn) {
+            prevPageBtn.disabled = currentPage === 1;
+        }
+        
+        if (nextPageBtn) {
+            nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
+        }
+    }
+    
+    function sortAndRenderRepos() {
+        sortRepos();
+        currentPage = 1;
+        renderRepos();
+    }
+    
+    // Event listeners
+    if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            sortAndRenderRepos();
+        });
+    }
+    
+    if (prevPageBtn) {
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderRepos();
+                githubGrid.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    }
+    
+    if (nextPageBtn) {
+        nextPageBtn.addEventListener('click', () => {
+            const totalPages = Math.ceil(allRepos.length / REPOS_PER_PAGE);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderRepos();
+                githubGrid.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    }
+    
+    // Initial fetch
+    fetchGitHubRepos();
+
+    // ========================================================================
     // Console Message
     // ========================================================================
     console.log('%c Λ Lambda Apps ', 'background: linear-gradient(135deg, #00d4aa, #00a8e8); color: #000; font-size: 20px; font-weight: bold; padding: 8px 16px; border-radius: 8px;');
     console.log('%c Mobile-Optimized Experience ', 'color: #00d4aa; font-size: 12px;');
+    console.log('%c GitHub: @ericsonwillians ', 'color: #888; font-size: 11px;');
 
 })();
