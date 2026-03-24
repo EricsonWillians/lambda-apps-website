@@ -674,6 +674,118 @@
     });
 
     // ========================================================================
+    // Lambda Rain - Matrix Style Animation
+    // ========================================================================
+    const lambdaCanvas = document.getElementById('lambdaRain');
+    
+    if (lambdaCanvas && !isTouchDevice) {
+        const ctx = lambdaCanvas.getContext('2d');
+        
+        // Set canvas size
+        function resizeCanvas() {
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                lambdaCanvas.width = hero.offsetWidth;
+                lambdaCanvas.height = hero.offsetHeight;
+            }
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas, { passive: true });
+        
+        // Lambda rain configuration
+        const characters = ['Λ', 'λ', 'Λ', 'λ'];
+        const fontSize = 14;
+        const columns = Math.floor(lambdaCanvas.width / fontSize);
+        const drops = [];
+        
+        // Initialize drops
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * -100; // Start above canvas at random positions
+        }
+        
+        let frameCount = 0;
+        let isActive = true;
+        let animationId = null;
+        
+        function draw() {
+            if (!isActive) return;
+            
+            // Only render every 2nd frame for performance (30fps)
+            frameCount++;
+            if (frameCount % 2 !== 0) {
+                animationId = requestAnimationFrame(draw);
+                return;
+            }
+            
+            // Semi-transparent black for trail effect
+            ctx.fillStyle = 'rgba(5, 5, 5, 0.05)';
+            ctx.fillRect(0, 0, lambdaCanvas.width, lambdaCanvas.height);
+            
+            ctx.fillStyle = '#00e5c0';
+            ctx.font = `${fontSize}px "JetBrains Mono", monospace`;
+            
+            for (let i = 0; i < drops.length; i++) {
+                // Randomly skip some drops for varied effect
+                if (Math.random() > 0.98) continue;
+                
+                const text = characters[Math.floor(Math.random() * characters.length)];
+                const x = i * fontSize;
+                const y = drops[i] * fontSize;
+                
+                // Vary opacity based on position for depth
+                const opacity = Math.max(0.1, 1 - (y / lambdaCanvas.height));
+                ctx.globalAlpha = opacity * 0.5;
+                
+                ctx.fillText(text, x, y);
+                ctx.globalAlpha = 1;
+                
+                // Reset drop when it reaches bottom or randomly
+                if (y > lambdaCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                
+                drops[i] += 0.5; // Slow fall speed
+            }
+            
+            animationId = requestAnimationFrame(draw);
+        }
+        
+        // Start animation
+        draw();
+        
+        // Pause when tab is hidden
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                isActive = false;
+                cancelAnimationFrame(animationId);
+            } else {
+                isActive = true;
+                draw();
+            }
+        });
+        
+        // Pause when hero is not visible
+        const heroObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (!isActive) {
+                        isActive = true;
+                        draw();
+                    }
+                } else {
+                    isActive = false;
+                    cancelAnimationFrame(animationId);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        const heroSection = document.querySelector('.hero');
+        if (heroSection) {
+            heroObserver.observe(heroSection);
+        }
+    }
+
+    // ========================================================================
     // Console Message
     // ========================================================================
     console.log('%c Λ Lambda Apps ', 'background: linear-gradient(135deg, #00d4aa, #00a8e8); color: #000; font-size: 20px; font-weight: bold; padding: 8px 16px; border-radius: 8px;');

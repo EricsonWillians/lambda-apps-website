@@ -722,6 +722,24 @@ p {
     opacity: 0.4;
 }
 
+/* Lambda Rain - Matrix Style Animation */
+.lambda-rain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.15;
+}
+
+@media (max-width: 768px) {
+    .lambda-rain {
+        opacity: 0.08;
+    }
+}
+
 .hero-content {
     max-width: var(--container-max);
     margin: auto;
