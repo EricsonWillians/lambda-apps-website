@@ -674,177 +674,164 @@
     });
 
     // ========================================================================
-    // Lambda Rain - Matrix Style Animation (Mobile-Optimized)
+    // Lambda Rain - Matrix Style Animation (Military Grade)
     // ========================================================================
-    const lambdaCanvas = document.getElementById('lambdaRain');
-    
-    if (lambdaCanvas) {
-        const ctx = lambdaCanvas.getContext('2d');
+    (function initLambdaRain() {
+        const DEBUG = false;
+        const log = (...args) => DEBUG && console.log('[λ]', ...args);
         
-        // Check for reduced motion preference and low-end devices
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+        const canvas = document.getElementById('lambdaRain');
+        if (!canvas) { log('Canvas not found'); return; }
         
-        if (prefersReducedMotion) {
-            // Don't run animation if user prefers reduced motion
-            lambdaCanvas.style.display = 'none';
-        } else {
-            // Mobile optimizations
-            const isMobile = window.innerWidth <= 768;
-            const pixelRatio = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
-            
-            // Set canvas size with proper pixel ratio for crisp rendering
-            function resizeCanvas() {
-                const hero = document.querySelector('.hero');
-                if (hero) {
-                    const width = hero.offsetWidth;
-                    const height = hero.offsetHeight;
-                    
-                    // Set actual canvas size accounting for pixel ratio
-                    lambdaCanvas.width = Math.floor(width * pixelRatio);
-                    lambdaCanvas.height = Math.floor(height * pixelRatio);
-                    
-                    // Set display size
-                    lambdaCanvas.style.width = width + 'px';
-                    lambdaCanvas.style.height = height + 'px';
-                    
-                    // Reset and scale context for high-DPI displays
-                    ctx.setTransform(1, 0, 0, 1, 0, 0);
-                    ctx.scale(pixelRatio, pixelRatio);
-                    
-                    // Re-calculate columns on resize
-                    initDrops();
-                }
-            }
-            resizeCanvas();
-            
-            // Debounced resize handler for mobile
-            let resizeTimeout;
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(resizeCanvas, 250);
-            }, { passive: true });
-            
-            // Lambda rain configuration - adjusted for mobile
-            const characters = ['Λ', 'λ'];
-            const fontSize = isMobile ? 12 : 14;
-            const maxColumns = isMobile ? (isLowEndDevice ? 20 : 30) : Infinity; // Only limit on mobile
-            
-            let columns = 0;
-            const drops = [];
-            
-            // Initialize drops
-            function initDrops() {
-                columns = Math.min(Math.floor((lambdaCanvas.width / pixelRatio) / fontSize), maxColumns);
-                drops.length = 0;
-                for (let i = 0; i < columns; i++) {
-                    drops[i] = Math.random() * -50;
-                }
-            }
-            initDrops();
-            
-            let frameCount = 0;
-            let isActive = true;
-            let animationId = null;
-            let lastTime = 0;
-            
-            // Target 30fps on mobile, 60fps on desktop
-            const targetFPS = isMobile ? 30 : 60;
-            const frameInterval = 1000 / targetFPS;
-            
-            function draw(currentTime) {
-                if (!isActive) return;
-                
-                animationId = requestAnimationFrame(draw);
-                
-                // Throttle to target FPS
-                const delta = currentTime - lastTime;
-                if (delta < frameInterval) return;
-                lastTime = currentTime - (delta % frameInterval);
-                
-                // Get display dimensions
-                const displayWidth = lambdaCanvas.width / pixelRatio;
-                const displayHeight = lambdaCanvas.height / pixelRatio;
-                
-                // Semi-transparent clear for trail effect
-                ctx.fillStyle = 'rgba(5, 5, 5, 0.08)';
-                ctx.fillRect(0, 0, displayWidth, displayHeight);
-                
-                ctx.fillStyle = '#00e5c0';
-                ctx.font = `${fontSize}px "JetBrains Mono", monospace`;
-                
-                for (let i = 0; i < columns; i++) {
-                    // Skip frames randomly for performance
-                    if (Math.random() > 0.9) continue;
-                    
-                    const text = characters[Math.floor(Math.random() * characters.length)];
-                    const x = i * fontSize;
-                    const y = drops[i] * fontSize;
-                    
-                    if (y > 0 && y < displayHeight) {
-                        // Vary opacity based on position
-                        const opacity = Math.max(0.05, 0.4 - (y / displayHeight) * 0.3);
-                        ctx.globalAlpha = opacity;
-                        ctx.fillText(text, x, y);
-                    }
-                    
-                    ctx.globalAlpha = 1;
-                    
-                    // Reset drop when it reaches bottom
-                    if (y > displayHeight && Math.random() > 0.98) {
-                        drops[i] = 0;
-                    }
-                    
-                    // Slower fall speed on mobile for better battery
-                    drops[i] += isMobile ? 0.3 : 0.5;
-                }
-            }
-            
-            // Start animation
-            animationId = requestAnimationFrame(draw);
-            
-            // Handle visibility changes
-            document.addEventListener('visibilitychange', () => {
-                if (document.hidden) {
-                    isActive = false;
-                    cancelAnimationFrame(animationId);
-                } else {
-                    isActive = true;
-                    lastTime = performance.now();
-                    animationId = requestAnimationFrame(draw);
-                }
-            }, { passive: true });
-            
-            // Pause when hero is not visible (use lower threshold on mobile)
-            const heroObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        if (!isActive) {
-                            isActive = true;
-                            lastTime = performance.now();
-                            animationId = requestAnimationFrame(draw);
-                        }
-                    } else {
-                        isActive = false;
-                        cancelAnimationFrame(animationId);
-                    }
-                });
-            }, { threshold: isMobile ? 0.05 : 0.1 });
-            
-            const heroSection = document.querySelector('.hero');
-            if (heroSection) {
-                heroObserver.observe(heroSection);
-            }
-            
-            // Re-initialize on orientation change (important for Android)
-            window.addEventListener('orientationchange', () => {
-                setTimeout(() => {
-                    resizeCanvas();
-                    initDrops();
-                }, 100);
-            }, { passive: true });
+        // Feature detection
+        const ctx = canvas.getContext('2d');
+        if (!ctx) { log('Canvas 2D context not supported'); return; }
+        
+        // Respect reduced motion preference
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            canvas.style.display = 'none';
+            log('Reduced motion preferred, hiding canvas');
+            return;
         }
-    }
+        
+        // Configuration
+        const config = {
+            fontSize: 14,
+            chars: ['Λ', 'λ'],
+            color: '#00e5c0',
+            trailAlpha: 0.05,
+            baseAlpha: 0.4,
+            fallSpeed: 0.5,
+            skipChance: 0.9,
+            resetChance: 0.975,
+            targetFPS: 60
+        };
+        
+        // Mobile adjustments
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+            config.fontSize = 12;
+            config.fallSpeed = 0.3;
+            config.targetFPS = 30;
+        }
+        
+        // State
+        let width = 0, height = 0, columns = 0;
+        let drops = [];
+        let isRunning = false;
+        let rafId = null;
+        let lastFrame = 0;
+        const frameInterval = 1000 / config.targetFPS;
+        
+        // Resize handler - simple and reliable
+        function resize() {
+            const hero = document.querySelector('.hero');
+            if (!hero) return;
+            
+            // Use CSS pixel size (no scaling issues)
+            width = hero.offsetWidth;
+            height = hero.offsetHeight;
+            
+            // Set canvas size to match display size
+            canvas.width = width;
+            canvas.height = height;
+            
+            // Recalculate columns
+            columns = Math.floor(width / config.fontSize);
+            
+            // Initialize or grow drops array
+            const oldLen = drops.length;
+            drops.length = columns;
+            for (let i = oldLen; i < columns; i++) {
+                drops[i] = Math.random() * -100; // Start above canvas
+            }
+            
+            log(`Resized: ${width}x${height}, columns: ${columns}`);
+        }
+        
+        // Draw frame
+        function draw(timestamp) {
+            if (!isRunning) return;
+            rafId = requestAnimationFrame(draw);
+            
+            // FPS throttling
+            if (timestamp - lastFrame < frameInterval) return;
+            lastFrame = timestamp;
+            
+            // Clear with trail effect
+            ctx.fillStyle = `rgba(5, 5, 5, ${config.trailAlpha})`;
+            ctx.fillRect(0, 0, width, height);
+            
+            // Draw drops
+            ctx.font = `${config.fontSize}px monospace`;
+            
+            for (let i = 0; i < columns; i++) {
+                if (Math.random() > config.skipChance) continue;
+                
+                const char = config.chars[Math.floor(Math.random() * config.chars.length)];
+                const x = i * config.fontSize;
+                const y = drops[i] * config.fontSize;
+                
+                if (y > 0 && y < height) {
+                    // Fade out as it falls
+                    const alpha = Math.max(0.05, config.baseAlpha - (y / height) * 0.3);
+                    ctx.fillStyle = config.color;
+                    ctx.globalAlpha = alpha;
+                    ctx.fillText(char, x, y);
+                    ctx.globalAlpha = 1;
+                }
+                
+                // Reset or advance
+                if (y > height && Math.random() > config.resetChance) {
+                    drops[i] = 0;
+                } else {
+                    drops[i] += config.fallSpeed;
+                }
+            }
+        }
+        
+        // Start/stop control
+        function start() {
+            if (isRunning) return;
+            isRunning = true;
+            lastFrame = performance.now();
+            rafId = requestAnimationFrame(draw);
+            log('Started');
+        }
+        
+        function stop() {
+            isRunning = false;
+            if (rafId) cancelAnimationFrame(rafId);
+            log('Stopped');
+        }
+        
+        // Initialize
+        resize();
+        
+        // Event handlers
+        window.addEventListener('resize', resize, { passive: true });
+        
+        document.addEventListener('visibilitychange', () => {
+            document.hidden ? stop() : start();
+        });
+        
+        // Intersection observer for hero section
+        const hero = document.querySelector('.hero');
+        if (hero && 'IntersectionObserver' in window) {
+            new IntersectionObserver((entries) => {
+                entries[0].isIntersecting ? start() : stop();
+            }, { threshold: 0 }).observe(hero);
+        } else {
+            start(); // Fallback if no IntersectionObserver
+        }
+        
+        // Orientation change handler
+        window.addEventListener('orientationchange', () => {
+            setTimeout(resize, 100);
+        });
+        
+        log('Initialized');
+    })();
 
     // ========================================================================
     // Console Message
