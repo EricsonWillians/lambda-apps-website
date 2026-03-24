@@ -203,13 +203,29 @@ const I18N = (function() {
                         ru: 'Развертывайте корпоративный ИИ в мультиоблачных средах. Интегрируйте GPT-4o, Claude 3.5 и Gemini через Vertex AI, Bedrock и Azure OpenAI. Создавайте интеллектуальную автоматизацию, RAG-конвейеры и корпоративные ИИ-шлюзы.',
                         zh: '在多云环境中部署企业级AI。通过Vertex AI、Bedrock和Azure OpenAI集成GPT-4o、Claude 3.5和Gemini。构建智能自动化、RAG管道和企业AI网关。'
                     },
-                    tags: {
-                        en: ['GPT-4o / Claude 3.5', 'Vertex AI / Bedrock', 'Azure OpenAI'],
-                        pt: ['GPT-4o / Claude 3.5', 'Vertex AI / Bedrock', 'Azure OpenAI'],
-                        es: ['GPT-4o / Claude 3.5', 'Vertex AI / Bedrock', 'Azure OpenAI'],
-                        de: ['GPT-4o / Claude 3.5', 'Vertex AI / Bedrock', 'Azure OpenAI'],
-                        ru: ['GPT-4o / Claude 3.5', 'Vertex AI / Bedrock', 'Azure OpenAI'],
-                        zh: ['GPT-4o / Claude 3.5', 'Vertex AI / Bedrock', 'Azure OpenAI']
+                    tag1: {
+                        en: 'GPT-4o / Claude 3.5',
+                        pt: 'GPT-4o / Claude 3.5',
+                        es: 'GPT-4o / Claude 3.5',
+                        de: 'GPT-4o / Claude 3.5',
+                        ru: 'GPT-4o / Claude 3.5',
+                        zh: 'GPT-4o / Claude 3.5'
+                    },
+                    tag2: {
+                        en: 'Vertex AI / Bedrock',
+                        pt: 'Vertex AI / Bedrock',
+                        es: 'Vertex AI / Bedrock',
+                        de: 'Vertex AI / Bedrock',
+                        ru: 'Vertex AI / Bedrock',
+                        zh: 'Vertex AI / Bedrock'
+                    },
+                    tag3: {
+                        en: 'Azure OpenAI',
+                        pt: 'Azure OpenAI',
+                        es: 'Azure OpenAI',
+                        de: 'Azure OpenAI',
+                        ru: 'Azure OpenAI',
+                        zh: 'Azure OpenAI'
                     }
                 },
                 python: {
@@ -229,13 +245,29 @@ const I18N = (function() {
                         ru: 'Масштабируемые бэкенд-системы на FastAPI. Экспертиза в проектировании API и управлении жизненным циклом моделей ИИ/МО.',
                         zh: '使用FastAPI构建可扩展的后端系统。擅长API设计和AI/ML模型生命周期管理。'
                     },
-                    tags: {
-                        en: ['Django', 'FastAPI', 'Data Pipelines'],
-                        pt: ['Django', 'FastAPI', 'Data Pipelines'],
-                        es: ['Django', 'FastAPI', 'Data Pipelines'],
-                        de: ['Django', 'FastAPI', 'Data Pipelines'],
-                        ru: ['Django', 'FastAPI', 'Data Pipelines'],
-                        zh: ['Django', 'FastAPI', '数据管道']
+                    tag1: {
+                        en: 'Django',
+                        pt: 'Django',
+                        es: 'Django',
+                        de: 'Django',
+                        ru: 'Django',
+                        zh: 'Django'
+                    },
+                    tag2: {
+                        en: 'FastAPI',
+                        pt: 'FastAPI',
+                        es: 'FastAPI',
+                        de: 'FastAPI',
+                        ru: 'FastAPI',
+                        zh: 'FastAPI'
+                    },
+                    tag3: {
+                        en: 'Data Pipelines',
+                        pt: 'Data Pipelines',
+                        es: 'Data Pipelines',
+                        de: 'Data Pipelines',
+                        ru: 'Data Pipelines',
+                        zh: '数据管道'
                     }
                 },
                 react: {
@@ -255,13 +287,29 @@ const I18N = (function() {
                         ru: 'Современная фронтенд-архитектура с React 19, Next.js, Vite и TypeScript. Кастомные хуки, управление состоянием и оптимизированные компоненты.',
                         zh: '使用React 19、Next.js、Vite和TypeScript构建现代前端架构。自定义钩子、状态管理和性能优化组件。'
                     },
-                    tags: {
-                        en: ['React 19', 'Next.js', 'TypeScript'],
-                        pt: ['React 19', 'Next.js', 'TypeScript'],
-                        es: ['React 19', 'Next.js', 'TypeScript'],
-                        de: ['React 19', 'Next.js', 'TypeScript'],
-                        ru: ['React 19', 'Next.js', 'TypeScript'],
-                        zh: ['React 19', 'Next.js', 'TypeScript']
+                    tag1: {
+                        en: 'React 19',
+                        pt: 'React 19',
+                        es: 'React 19',
+                        de: 'React 19',
+                        ru: 'React 19',
+                        zh: 'React 19'
+                    },
+                    tag2: {
+                        en: 'Next.js',
+                        pt: 'Next.js',
+                        es: 'Next.js',
+                        de: 'Next.js',
+                        ru: 'Next.js',
+                        zh: 'Next.js'
+                    },
+                    tag3: {
+                        en: 'TypeScript',
+                        pt: 'TypeScript',
+                        es: 'TypeScript',
+                        de: 'TypeScript',
+                        ru: 'TypeScript',
+                        zh: 'TypeScript'
                     }
                 },
                 cloud: {
@@ -281,13 +329,29 @@ const I18N = (function() {
                         ru: 'Проектирование инфраструктуры AWS, Azure и GCP. Бессерверные функции, контейнеризация, интеграция ИИ-шлюзов и масштабируемые микросервисы.',
                         zh: 'AWS、Azure和GCP基础设施设计。无服务器函数、容器化、AI网关集成和可扩展微服务。'
                     },
-                    tags: {
-                        en: ['AWS', 'Azure', 'Kubernetes'],
-                        pt: ['AWS', 'Azure', 'Kubernetes'],
-                        es: ['AWS', 'Azure', 'Kubernetes'],
-                        de: ['AWS', 'Azure', 'Kubernetes'],
-                        ru: ['AWS', 'Azure', 'Kubernetes'],
-                        zh: ['AWS', 'Azure', 'Kubernetes']
+                    tag1: {
+                        en: 'AWS',
+                        pt: 'AWS',
+                        es: 'AWS',
+                        de: 'AWS',
+                        ru: 'AWS',
+                        zh: 'AWS'
+                    },
+                    tag2: {
+                        en: 'Azure',
+                        pt: 'Azure',
+                        es: 'Azure',
+                        de: 'Azure',
+                        ru: 'Azure',
+                        zh: 'Azure'
+                    },
+                    tag3: {
+                        en: 'Kubernetes',
+                        pt: 'Kubernetes',
+                        es: 'Kubernetes',
+                        de: 'Kubernetes',
+                        ru: 'Kubernetes',
+                        zh: 'Kubernetes'
                     }
                 },
                 audio: {
@@ -307,13 +371,29 @@ const I18N = (function() {
                         ru: 'Профессиональная аудиосинтез с использованием Web Audio API и Tone.js. Интерактивные музыкальные приложения и обработка аудио в реальном времени.',
                         zh: '使用Web Audio API和Tone.js进行专业级音频合成。交互式音乐应用和实时音频处理。'
                     },
-                    tags: {
-                        en: ['Web Audio API', 'Tone.js', 'React'],
-                        pt: ['Web Audio API', 'Tone.js', 'React'],
-                        es: ['Web Audio API', 'Tone.js', 'React'],
-                        de: ['Web Audio API', 'Tone.js', 'React'],
-                        ru: ['Web Audio API', 'Tone.js', 'React'],
-                        zh: ['Web Audio API', 'Tone.js', 'React']
+                    tag1: {
+                        en: 'Web Audio API',
+                        pt: 'Web Audio API',
+                        es: 'Web Audio API',
+                        de: 'Web Audio API',
+                        ru: 'Web Audio API',
+                        zh: 'Web Audio API'
+                    },
+                    tag2: {
+                        en: 'Tone.js',
+                        pt: 'Tone.js',
+                        es: 'Tone.js',
+                        de: 'Tone.js',
+                        ru: 'Tone.js',
+                        zh: 'Tone.js'
+                    },
+                    tag3: {
+                        en: 'React',
+                        pt: 'React',
+                        es: 'React',
+                        de: 'React',
+                        ru: 'React',
+                        zh: 'React'
                     }
                 },
                 nlp: {
@@ -333,13 +413,29 @@ const I18N = (function() {
                         ru: 'Обработка естественного языка для извлечения документов, классификации намерений и распознавания сущностей. Автоматизируйте сложные рабочие процессы с помощью интеллектуального текстового анализа.',
                         zh: '用于文档提取、意图分类和实体识别的自然语言处理。通过智能文本分析实现复杂工作流自动化。'
                     },
-                    tags: {
-                        en: ['NLP', 'OCR', 'Automation'],
-                        pt: ['NLP', 'OCR', 'Automação'],
-                        es: ['NLP', 'OCR', 'Automatización'],
-                        de: ['NLP', 'OCR', 'Automatisierung'],
-                        ru: ['NLP', 'OCR', 'Автоматизация'],
-                        zh: ['NLP', 'OCR', '自动化']
+                    tag1: {
+                        en: 'NLP',
+                        pt: 'NLP',
+                        es: 'NLP',
+                        de: 'NLP',
+                        ru: 'NLP',
+                        zh: 'NLP'
+                    },
+                    tag2: {
+                        en: 'OCR',
+                        pt: 'OCR',
+                        es: 'OCR',
+                        de: 'OCR',
+                        ru: 'OCR',
+                        zh: 'OCR'
+                    },
+                    tag3: {
+                        en: 'Automation',
+                        pt: 'Automação',
+                        es: 'Automatización',
+                        de: 'Automatisierung',
+                        ru: 'Автоматизация',
+                        zh: '自动化'
                     }
                 },
                 security: {
@@ -359,13 +455,29 @@ const I18N = (function() {
                         ru: 'Этические оценки безопасности и аудит качества кода. Услуги bug bounty через HackerOne и BugCrowd. Укрепление приложений против уязвимостей.',
                         zh: '道德安全评估和代码质量审计。通过HackerOne和BugCrowd提供漏洞赏金服务。强化应用程序以抵御漏洞。'
                     },
-                    tags: {
-                        en: ['HackerOne', 'BugCrowd', 'Audits'],
-                        pt: ['HackerOne', 'BugCrowd', 'Auditorias'],
-                        es: ['HackerOne', 'BugCrowd', 'Auditorías'],
-                        de: ['HackerOne', 'BugCrowd', 'Audits'],
-                        ru: ['HackerOne', 'BugCrowd', 'Аудит'],
-                        zh: ['HackerOne', 'BugCrowd', '审计']
+                    tag1: {
+                        en: 'HackerOne',
+                        pt: 'HackerOne',
+                        es: 'HackerOne',
+                        de: 'HackerOne',
+                        ru: 'HackerOne',
+                        zh: 'HackerOne'
+                    },
+                    tag2: {
+                        en: 'BugCrowd',
+                        pt: 'BugCrowd',
+                        es: 'BugCrowd',
+                        de: 'BugCrowd',
+                        ru: 'BugCrowd',
+                        zh: 'BugCrowd'
+                    },
+                    tag3: {
+                        en: 'Audits',
+                        pt: 'Auditorias',
+                        es: 'Auditorías',
+                        de: 'Audits',
+                        ru: 'Аудит',
+                        zh: '审计'
                     }
                 },
                 nodejs: {
@@ -385,13 +497,29 @@ const I18N = (function() {
                         ru: 'Масштабируемые серверные приложения, BFF-архитектура и системы реального времени с использованием Node.js, Express и современных API-паттернов.',
                         zh: '使用Node.js、Express和现代API模式构建可扩展的服务器端应用、BFF架构和实时系统。'
                     },
-                    tags: {
-                        en: ['Node.js', 'Express', 'GraphQL'],
-                        pt: ['Node.js', 'Express', 'GraphQL'],
-                        es: ['Node.js', 'Express', 'GraphQL'],
-                        de: ['Node.js', 'Express', 'GraphQL'],
-                        ru: ['Node.js', 'Express', 'GraphQL'],
-                        zh: ['Node.js', 'Express', 'GraphQL']
+                    tag1: {
+                        en: 'Node.js',
+                        pt: 'Node.js',
+                        es: 'Node.js',
+                        de: 'Node.js',
+                        ru: 'Node.js',
+                        zh: 'Node.js'
+                    },
+                    tag2: {
+                        en: 'Express',
+                        pt: 'Express',
+                        es: 'Express',
+                        de: 'Express',
+                        ru: 'Express',
+                        zh: 'Express'
+                    },
+                    tag3: {
+                        en: 'GraphQL',
+                        pt: 'GraphQL',
+                        es: 'GraphQL',
+                        de: 'GraphQL',
+                        ru: 'GraphQL',
+                        zh: 'GraphQL'
                     }
                 }
             }
@@ -858,6 +986,15 @@ const I18N = (function() {
                 console.warn(`Translation key not found: ${keyPath}`);
                 return keyPath; // Return key as fallback
             }
+        }
+
+        // If value is an array, return the element for the language index
+        if (Array.isArray(value)) {
+            const langIndex = ['en', 'pt', 'es', 'de', 'ru', 'zh'].indexOf(lang);
+            if (langIndex !== -1 && langIndex < value.length) {
+                return value[langIndex];
+            }
+            return value[0]; // Fallback to English
         }
 
         // If value is an object with language keys
