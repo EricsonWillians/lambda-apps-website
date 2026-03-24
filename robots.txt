@@ -1,0 +1,17 @@
+User-agent: *
+Disallow: /.docs/
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /Makefile
+Disallow: /package.json
+Disallow: /serve.py
+
+# Allow only public content
+Allow: /index.html
+Allow: /coming-soon.html
+Allow: /css/
+Allow: /js/
+Allow: /CNAME
+Allow: /app-ads.txt
+
+Sitemap: https://www.lambdaapps.dev/sitemap.xml

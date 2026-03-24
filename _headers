@@ -1,0 +1,21 @@
+# Netlify/Vercel Security Headers
+# Protects against reconnaissance and common attacks
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';
+  X-Powered-By: 
+  Server: 
+
+/.docs/*
+  X-Robots-Tag: noindex, nofollow
+
+/.git/*
+  X-Robots-Tag: noindex, nofollow
+
+/.github/*
+  X-Robots-Tag: noindex, nofollow

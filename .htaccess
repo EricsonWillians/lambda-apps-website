@@ -1,0 +1,75 @@
+# Lambda Apps - Security Configuration
+# Protects against reconnaissance, fuzzing, and common attacks
+
+# Disable directory browsing
+Options -Indexes
+
+# Disable server signature
+ServerSignature Off
+
+# Protect hidden files (starting with dot)
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Protect sensitive files
+<FilesMatch "^(Makefile|package\.json|serve\.py|README|CHANGELOG|LICENSE)($|\.)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to version control
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^\.git/ - [F,L]
+    RewriteRule ^\.github/ - [F,L]
+    RewriteRule ^\.docs/ - [F,L]
+</IfModule>
+
+# Security Headers
+<IfModule mod_headers.c>
+    # Prevent clickjacking
+    Header always set X-Frame-Options "DENY"
+    
+    # Prevent MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # XSS Protection
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Permissions Policy
+    Header always set Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+    
+    # Content Security Policy
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+    
+    # Remove server information
+    Header always unset X-Powered-By
+    Header always unset Server
+</IfModule>
+
+# Disable PHP (if present)
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+
+# Prevent access to backup/config files
+<FilesMatch "\.(bak|config|sql|log|tmp|swp)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Custom 404 error page
+ErrorDocument 404 /404.html
+
+# Rate limiting (requires mod_ratelimit)
+<IfModule mod_ratelimit.c>
+    <Location />
+        SetOutputFilter RATE_LIMIT
+        SetEnv rate-limit 400 
+    </Location>
+</IfModule>
