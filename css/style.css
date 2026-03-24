@@ -362,8 +362,9 @@ p {
     padding: 0 var(--container-padding);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     height: 60px;
+    gap: var(--space-sm);
 }
 
 @media (min-width: 768px) {
@@ -380,6 +381,8 @@ p {
     font-weight: 700;
     font-size: 1.125rem;
     z-index: 101;
+    flex-shrink: 0;
+    margin-right: var(--space-md);
 }
 
 .logo-symbol {
@@ -417,11 +420,13 @@ p {
     display: none;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
     .nav {
         display: flex;
         align-items: center;
-        gap: var(--space-lg);
+        gap: var(--space-md);
+        margin-left: auto;
+        margin-right: var(--space-md);
     }
     
     .nav-link {
@@ -429,11 +434,12 @@ p {
         align-items: center;
         gap: 0.25rem;
         font-family: var(--font-mono);
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
         color: var(--color-text-muted);
         transition: color var(--duration-fast);
         position: relative;
-        padding: 0.5rem 0;
+        padding: 0.5rem 0.25rem;
+        white-space: nowrap;
     }
     
     .nav-link::after {
@@ -464,6 +470,17 @@ p {
     }
 }
 
+@media (min-width: 1100px) {
+    .nav {
+        gap: var(--space-lg);
+    }
+    
+    .nav-link {
+        font-size: 0.875rem;
+        padding: 0.5rem 0;
+    }
+}
+
 /* Mobile Menu Toggle - Large touch target */
 .menu-toggle {
     display: flex;
@@ -480,6 +497,8 @@ p {
     z-index: 101;
     position: relative;
     -webkit-tap-highlight-color: transparent;
+    margin-left: auto;
+    flex-shrink: 0;
 }
 
 .menu-toggle span {
@@ -504,7 +523,7 @@ p {
     transform: translateY(-7px) rotate(-45deg);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
     .menu-toggle {
         display: none;
     }
@@ -1901,13 +1920,14 @@ p {
    Language Switcher
    ================================================================= */
 .language-switcher {
-    margin-left: auto;
-    margin-right: var(--space-md);
+    margin-right: var(--space-sm);
+    flex-shrink: 0;
 }
 
-@media (max-width: 767px) {
+@media (min-width: 900px) {
     .language-switcher {
-        margin-right: var(--space-sm);
+        margin-right: 0;
+        margin-left: 0;
     }
 }
 
