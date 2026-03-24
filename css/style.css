@@ -5,23 +5,23 @@
 
 /* CSS Custom Properties */
 :root {
-    /* Colors */
-    --color-bg: #050505;
-    --color-surface: #0a0a0a;
-    --color-surface-elevated: #111111;
-    --color-surface-hover: #1a1a1a;
-    --color-border: rgba(255, 255, 255, 0.08);
-    --color-border-hover: rgba(255, 255, 255, 0.2);
+    /* Colors - High Contrast */
+    --color-bg: #030303;
+    --color-surface: #080808;
+    --color-surface-elevated: #121212;
+    --color-surface-hover: #1c1c1c;
+    --color-border: rgba(255, 255, 255, 0.15);
+    --color-border-hover: rgba(255, 255, 255, 0.35);
     --color-text: #ffffff;
-    --color-text-muted: #888888;
-    --color-text-dim: #666666;
-    --color-accent: #00d4aa;
-    --color-accent-dim: rgba(0, 212, 170, 0.1);
+    --color-text-muted: #b0b0b0;
+    --color-text-dim: #808080;
+    --color-accent: #00e5c0;
+    --color-accent-dim: rgba(0, 229, 192, 0.15);
     
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, #00d4aa 0%, #00a8e8 100%);
-    --gradient-surface: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
-    --gradient-glow: radial-gradient(ellipse at center, rgba(0, 212, 170, 0.15) 0%, transparent 70%);
+    --gradient-primary: linear-gradient(135deg, #00e5c0 0%, #00d4ff 100%);
+    --gradient-surface: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, transparent 100%);
+    --gradient-glow: radial-gradient(ellipse at center, rgba(0, 229, 192, 0.2) 0%, transparent 60%);
     
     /* Typography */
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -93,8 +93,6 @@ body {
     background-color: var(--color-bg);
     overflow-x: hidden;
     min-height: 100vh;
-    /* Prevent pull-to-refresh on mobile but allow scroll */
-    overscroll-behavior-y: none;
 }
 
 /* iOS Safari fixes */
@@ -130,13 +128,21 @@ body {
    ================================================================= */
 .loader {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: var(--color-bg);
     z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.5s var(--ease-out-expo), visibility 0.5s;
+    transition: opacity 0.4s var(--ease-out-expo), visibility 0.4s;
+    pointer-events: none;
+}
+
+.loader:not(.hidden) {
+    pointer-events: all;
 }
 
 .loader.hidden {
@@ -507,7 +513,10 @@ p {
 /* Mobile Menu - Full screen overlay */
 .mobile-menu {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: var(--color-bg);
     z-index: 99;
     display: flex;
@@ -516,8 +525,8 @@ p {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s, visibility 0.4s;
-    /* Prevent body scroll when menu is open */
-    touch-action: none;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .mobile-menu.active {
@@ -643,20 +652,24 @@ p {
    ================================================================= */
 .hero {
     min-height: 100vh;
-    min-height: 100dvh; /* Dynamic viewport height for mobile */
+    min-height: 100svh; /* Small viewport height for mobile */
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     position: relative;
     padding: 100px var(--container-padding) var(--space-xl);
-    overflow: hidden;
+    overflow: visible;
 }
 
 .hero-background {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: -1;
     overflow: hidden;
+    pointer-events: none;
 }
 
 .hero-grid {
@@ -692,8 +705,9 @@ p {
 
 .hero-content {
     max-width: var(--container-max);
-    margin: 0 auto;
+    margin: auto;
     width: 100%;
+    padding-top: var(--space-xl);
 }
 
 .hero-eyebrow {
@@ -849,54 +863,74 @@ p {
     }
 }
 
-/* Scroll Indicator - Hidden on mobile */
+/* Scroll Indicator - Fixed at bottom */
 .scroll-indicator {
-    display: none;
+    display: flex;
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+    gap: var(--space-sm);
+    opacity: 1;
+    transition: opacity 0.4s, transform 0.4s, visibility 0.4s;
+    z-index: 50;
+    background: rgba(5, 5, 5, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 10px 16px;
+    border-radius: 100px;
+    border: 1px solid var(--color-border);
 }
 
-@media (min-width: 768px) {
+.scroll-indicator.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(20px);
+    pointer-events: none;
+}
+
+.scroll-mouse {
+    width: 18px;
+    height: 26px;
+    border: 2px solid var(--color-text-muted);
+    border-radius: 9px;
+    display: flex;
+    justify-content: center;
+    padding-top: 5px;
+    flex-shrink: 0;
+}
+
+.scroll-wheel {
+    width: 2px;
+    height: 5px;
+    background: var(--color-accent);
+    border-radius: 2px;
+    animation: scrollWheel 2s ease-in-out infinite;
+}
+
+@keyframes scrollWheel {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(5px); opacity: 0.3; }
+}
+
+.scroll-text {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+}
+
+@media (max-width: 767px) {
     .scroll-indicator {
-        display: flex;
-        position: absolute;
-        bottom: var(--space-xl);
-        left: 50%;
-        transform: translateX(-50%);
-        flex-direction: column;
-        align-items: center;
-        gap: var(--space-sm);
-        opacity: 0;
-        animation: fadeIn 0.6s var(--ease-out-expo) 1s forwards;
-    }
-    
-    .scroll-mouse {
-        width: 24px;
-        height: 36px;
-        border: 2px solid var(--color-text-muted);
-        border-radius: 12px;
-        display: flex;
-        justify-content: center;
-        padding-top: 8px;
-    }
-    
-    .scroll-wheel {
-        width: 4px;
-        height: 8px;
-        background: var(--color-text-muted);
-        border-radius: 2px;
-        animation: scrollWheel 2s ease-in-out infinite;
-    }
-    
-    @keyframes scrollWheel {
-        0%, 100% { transform: translateY(0); opacity: 1; }
-        50% { transform: translateY(8px); opacity: 0.3; }
+        bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+        padding: 8px 14px;
     }
     
     .scroll-text {
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
-        color: var(--color-text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
+        font-size: 0.625rem;
     }
 }
 

@@ -22,17 +22,39 @@
     function hideLoader() {
         if (loader) {
             // Shorter loader time on mobile
-            const loadTime = isTouchDevice ? 800 : 1200;
+            const loadTime = isTouchDevice ? 400 : 800;
             setTimeout(() => {
                 loader.classList.add('hidden');
+                // Remove overflow hidden from body - critical for scrolling
                 document.body.style.overflow = '';
+                document.body.style.height = '';
+                document.documentElement.style.overflow = '';
                 // Trigger scroll animations after loader
                 initScrollAnimations();
+                
+                // Force scroll indicator to show
+                const scrollIndicator = document.getElementById('scrollIndicator');
+                if (scrollIndicator) {
+                    scrollIndicator.style.opacity = '1';
+                    scrollIndicator.style.visibility = 'visible';
+                }
             }, loadTime);
         }
     }
 
+    // Only hide overflow during load
     document.body.style.overflow = 'hidden';
+    document.body.style.height = '100vh';
+    
+    // Safety fallback - always enable scroll after 3 seconds max
+    setTimeout(() => {
+        document.body.style.overflow = '';
+        document.body.style.height = '';
+        document.documentElement.style.overflow = '';
+        if (loader && !loader.classList.contains('hidden')) {
+            loader.classList.add('hidden');
+        }
+    }, 3000);
     
     // Use DOMContentLoaded for faster startup
     if (document.readyState === 'loading') {
@@ -131,7 +153,11 @@
             
             menuToggle.classList.toggle('active', isMenuOpen);
             mobileMenu.classList.toggle('active', isMenuOpen);
-            document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+            
+            // Only toggle overflow if loader is hidden
+            if (!loader || loader.classList.contains('hidden')) {
+                document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+            }
             
             // Accessibility
             menuToggle.setAttribute('aria-expanded', isMenuOpen);
@@ -163,11 +189,13 @@
     }
 
     // ========================================================================
-    // Header Scroll Effect - Throttled
+    // Header Scroll Effect & Scroll Indicator - Throttled
     // ========================================================================
     const header = document.getElementById('header');
+    const scrollIndicator = document.getElementById('scrollIndicator');
     let lastScroll = 0;
     let ticking = false;
+    let scrollIndicatorHidden = false;
     
     function updateHeader() {
         const currentScroll = window.pageYOffset;
@@ -178,6 +206,13 @@
             } else {
                 header.classList.remove('scrolled');
             }
+        }
+        
+        // Hide scroll indicator after user scrolls (smaller threshold for mobile)
+        const hideThreshold = isTouchDevice ? 50 : 100;
+        if (!scrollIndicatorHidden && scrollIndicator && currentScroll > hideThreshold) {
+            scrollIndicator.classList.add('hidden');
+            scrollIndicatorHidden = true;
         }
         
         lastScroll = currentScroll;
