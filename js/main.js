@@ -708,8 +708,12 @@
                     lambdaCanvas.style.width = width + 'px';
                     lambdaCanvas.style.height = height + 'px';
                     
-                    // Scale context for high-DPI displays
+                    // Reset and scale context for high-DPI displays
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
                     ctx.scale(pixelRatio, pixelRatio);
+                    
+                    // Re-calculate columns on resize
+                    initDrops();
                 }
             }
             resizeCanvas();
@@ -724,9 +728,9 @@
             // Lambda rain configuration - adjusted for mobile
             const characters = ['Λ', 'λ'];
             const fontSize = isMobile ? 12 : 14;
-            const maxColumns = isMobile ? (isLowEndDevice ? 20 : 30) : 50; // Limit columns on mobile
+            const maxColumns = isMobile ? (isLowEndDevice ? 20 : 30) : Infinity; // Only limit on mobile
             
-            let columns = Math.min(Math.floor((lambdaCanvas.width / pixelRatio) / fontSize), maxColumns);
+            let columns = 0;
             const drops = [];
             
             // Initialize drops
@@ -769,7 +773,7 @@
                 ctx.fillStyle = '#00e5c0';
                 ctx.font = `${fontSize}px "JetBrains Mono", monospace`;
                 
-                for (let i = 0; i < drops.length; i++) {
+                for (let i = 0; i < columns; i++) {
                     // Skip frames randomly for performance
                     if (Math.random() > 0.9) continue;
                     
