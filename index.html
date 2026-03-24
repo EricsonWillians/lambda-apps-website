@@ -3,275 +3,518 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+    <meta name="theme-color" content="#050505">
+    <meta name="color-scheme" content="dark">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>Lambda Apps | Fullstack Development & AI Integration</title>
     <meta name="description" content="Senior fullstack development services with AI integration expertise. Specializing in Python, React, Node.js, LLM integration, cloud architecture, and audio applications.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div id="cursor"></div>
-    <div id="cursor-follower"></div>
+    <!-- Loading Screen -->
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <div class="loader-logo">Λ</div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
 
-    <header class="grid-layout">
-        <div class="logo"><a href="index.html">LAMBDA APPS</a></div>
-        <nav>
-            <a href="#services" class="nav-link" data-hover>SERVICES</a>
-            <a href="#portfolio" class="nav-link" data-hover>WORK</a>
-            <a href="#about" class="nav-link" data-hover>ABOUT</a>
-            <a href="#contact" class="nav-link" data-hover>CONTACT</a>
-        </nav>
+    <!-- Custom Cursor -->
+    <div id="cursor" class="cursor"></div>
+    <div id="cursor-follower" class="cursor-follower"></div>
+    <div id="cursor-trail" class="cursor-trail"></div>
+
+    <!-- Navigation -->
+    <header class="header" id="header">
+        <div class="header-inner">
+            <a href="#" class="logo">
+                <span class="logo-symbol">Λ</span>
+                <span class="logo-text">LAMBDA</span>
+            </a>
+            
+            <nav class="nav" id="nav">
+                <a href="#services" class="nav-link" data-hover>
+                    <span class="nav-number">01</span>
+                    <span class="nav-text">Services</span>
+                </a>
+                <a href="#work" class="nav-link" data-hover>
+                    <span class="nav-number">02</span>
+                    <span class="nav-text">Work</span>
+                </a>
+                <a href="#about" class="nav-link" data-hover>
+                    <span class="nav-number">03</span>
+                    <span class="nav-text">About</span>
+                </a>
+                <a href="#contact" class="nav-link" data-hover>
+                    <span class="nav-number">04</span>
+                    <span class="nav-text">Contact</span>
+                </a>
+            </nav>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
     </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <a href="#services" class="mobile-link">Services</a>
+            <a href="#work" class="mobile-link">Work</a>
+            <a href="#about" class="mobile-link">About</a>
+            <a href="#contact" class="mobile-link">Contact</a>
+        </div>
+    </div>
 
     <main>
         <!-- Hero Section -->
-        <section id="hero" class="fullscreen-section grid-layout">
+        <section id="hero" class="hero">
+            <div class="hero-background">
+                <div class="hero-grid"></div>
+                <div class="hero-glow"></div>
+            </div>
+            
             <div class="hero-content">
-                <h1 class="glitch" data-text="FULLSTACK">FULLSTACK</h1>
-                <h1 class="glitch" data-text="DEVELOPMENT">DEVELOPMENT</h1>
-                <p class="hero-sub">ARCHITECTING SCALABLE SYSTEMS WITH AI INTEGRATION</p>
+                <div class="hero-eyebrow" data-animate="fade-up">
+                    <span class="eyebrow-line"></span>
+                    <span>Fullstack Development Studio</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    <span class="title-line" data-animate="slide-up">ARCHITECTING</span>
+                    <span class="title-line" data-animate="slide-up" data-delay="100">SCALABLE</span>
+                    <span class="title-line highlight" data-animate="slide-up" data-delay="200">SYSTEMS</span>
+                </h1>
+                
+                <p class="hero-subtitle" data-animate="fade-up" data-delay="300">
+                    Senior developer with 10+ years of experience building production-grade applications. 
+                    From AI-powered automation to real-time audio systems.
+                </p>
+                
+                <div class="hero-cta" data-animate="fade-up" data-delay="400">
+                    <a href="#contact" class="btn btn-primary" data-hover>
+                        <span>Start a Project</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="#work" class="btn btn-secondary" data-hover>
+                        <span>View Work</span>
+                    </a>
+                </div>
             </div>
-            <div class="hero-description">
-                <p>Over a decade of experience building production-grade applications. From AI-powered automation to real-time audio systems, we deliver solutions that combine technical depth with creative innovation.</p>
+
+            <div class="hero-stats" data-animate="stagger-up" data-delay="500">
+                <div class="stat-item">
+                    <span class="stat-number" data-count="10">0</span>
+                    <span class="stat-suffix">+</span>
+                    <span class="stat-label">Years Experience</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="50">0</span>
+                    <span class="stat-suffix">+</span>
+                    <span class="stat-label">Projects Delivered</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="8">0</span>
+                    <span class="stat-label">Core Technologies</span>
+                </div>
             </div>
-            <div class="scroll-indicator">
-                <span>SCROLL</span>
-                <div class="line"></div>
+
+            <div class="scroll-indicator" data-animate="fade-in" data-delay="800">
+                <div class="scroll-mouse">
+                    <div class="scroll-wheel"></div>
+                </div>
+                <span class="scroll-text">Scroll to explore</span>
             </div>
         </section>
 
         <!-- Services Section -->
-        <section id="services" class="grid-layout">
-            <div class="section-header">
-                <h2>// SERVICES</h2>
-                <div class="separator"></div>
-            </div>
-            <div class="services-grid">
-                <!-- AI Integration -->
-                <div class="service-card" data-hover>
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-                        </svg>
-                    </div>
-                    <h3>AI & LLM Integration</h3>
-                    <p>Production-ready AI solutions using GPT-4, Azure OpenAI, and custom LLMs. Build intelligent document processing, automated workflows, and conversational interfaces.</p>
+        <section id="services" class="services">
+            <div class="section-container">
+                <div class="section-header" data-animate="fade-up">
+                    <span class="section-eyebrow">What We Do</span>
+                    <h2 class="section-title">Services</h2>
+                    <p class="section-desc">Specialized expertise across the full stack, from AI integration to cloud architecture.</p>
                 </div>
 
-                <!-- Python Ecosystem -->
-                <div class="service-card" data-hover>
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                        </svg>
-                    </div>
-                    <h3>Python Architecture</h3>
-                    <p>Scalable backend systems with Django, FastAPI, and Flask. Expertise in data pipelines, API design, and AI/ML model lifecycle management from research to deployment.</p>
-                </div>
+                <div class="services-grid">
+                    <article class="service-card" data-hover data-animate="fade-up">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="24" cy="24" r="20"/>
+                                <path d="M24 14v20M14 24h20"/>
+                                <circle cx="24" cy="24" r="6"/>
+                            </svg>
+                        </div>
+                        <div class="service-content">
+                            <h3>AI & LLM Integration</h3>
+                            <p>Production-ready AI solutions using GPT-4, Azure OpenAI, and custom LLMs. Build intelligent document processing, automated workflows, and conversational interfaces.</p>
+                            <ul class="service-tags">
+                                <li>GPT-4</li>
+                                <li>Azure OpenAI</li>
+                                <li>LangChain</li>
+                            </ul>
+                        </div>
+                        <div class="service-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </div>
+                    </article>
 
-                <!-- React/Frontend -->
-                <div class="service-card" data-hover>
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <rect x="3" y="3" width="18" height="18" rx="2"/>
-                            <path d="M9 3v18M15 3v18M3 9h18M3 15h18"/>
-                        </svg>
-                    </div>
-                    <h3>React & TypeScript</h3>
-                    <p>Modern frontend architecture with React 19, Next.js, Vite, and TypeScript. Custom hooks, state management, and performance-optimized component design.</p>
-                </div>
+                    <article class="service-card" data-hover data-animate="fade-up" data-delay="100">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M24 4L4 14v20l20 10 20-10V14L24 4z"/>
+                                <path d="M4 14l20 10 20-10"/>
+                                <path d="M24 24v20"/>
+                            </svg>
+                        </div>
+                        <div class="service-content">
+                            <h3>Python Architecture</h3>
+                            <p>Scalable backend systems with Django, FastAPI, and Flask. Expertise in data pipelines, API design, and AI/ML model lifecycle management.</p>
+                            <ul class="service-tags">
+                                <li>Django</li>
+                                <li>FastAPI</li>
+                                <li>Data Pipelines</li>
+                            </ul>
+                        </div>
+                        <div class="service-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </div>
+                    </article>
 
-                <!-- Cloud Infrastructure -->
-                <div class="service-card" data-hover>
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
-                        </svg>
-                    </div>
-                    <h3>Cloud Architecture</h3>
-                    <p>AWS, Azure, and GCP infrastructure design. Serverless functions, containerization, AI Gateway integration, and scalable microservices deployment.</p>
-                </div>
+                    <article class="service-card" data-hover data-animate="fade-up" data-delay="200">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="8" y="8" width="32" height="32" rx="4"/>
+                                <path d="M8 16h32M16 8v32M32 8v32"/>
+                            </svg>
+                        </div>
+                        <div class="service-content">
+                            <h3>React & TypeScript</h3>
+                            <p>Modern frontend architecture with React 19, Next.js, Vite, and TypeScript. Custom hooks, state management, and performance-optimized components.</p>
+                            <ul class="service-tags">
+                                <li>React 19</li>
+                                <li>Next.js</li>
+                                <li>TypeScript</li>
+                            </ul>
+                        </div>
+                        <div class="service-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </div>
+                    </article>
 
-                <!-- Audio/Web Audio -->
-                <div class="service-card" data-hover>
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                            <line x1="12" y1="19" x2="12" y2="23"/>
-                            <line x1="8" y1="23" x2="16" y2="23"/>
-                        </svg>
-                    </div>
-                    <h3>Audio & Web Applications</h3>
-                    <p>Professional-grade audio synthesis using Web Audio API and Tone.js. Build interactive music applications, real-time audio processing, and creative web experiences.</p>
-                </div>
+                    <article class="service-card" data-hover data-animate="fade-up">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M40 20c0-8.84-7.16-16-16-16S8 11.16 8 20c0 5.5 2.78 10.34 7 13.23V44l9-6 9 6v-10.77c4.22-2.89 7-7.73 7-13.23z"/>
+                            </svg>
+                        </div>
+                        <div class="service-content">
+                            <h3>Cloud Architecture</h3>
+                            <p>AWS, Azure, and GCP infrastructure design. Serverless functions, containerization, AI Gateway integration, and scalable microservices.</p>
+                            <ul class="service-tags">
+                                <li>AWS</li>
+                                <li>Azure</li>
+                                <li>Kubernetes</li>
+                            </ul>
+                        </div>
+                        <div class="service-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </div>
+                    </article>
 
-                <!-- NLP Solutions -->
-                <div class="service-card" data-hover>
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                            <path d="M8 10h.01M12 10h.01M16 10h.01"/>
-                        </svg>
-                    </div>
-                    <h3>NLP & Automation</h3>
-                    <p>Natural language processing solutions for document extraction, intent classification, and entity recognition. Automate complex workflows with intelligent text analysis.</p>
-                </div>
+                    <article class="service-card" data-hover data-animate="fade-up" data-delay="100">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M24 4v8M24 36v8M4 24h8M36 24h8"/>
+                                <circle cx="24" cy="24" r="8"/>
+                                <path d="M12 12l5 5M31 31l5 5M12 36l5-5M31 17l5-5"/>
+                            </svg>
+                        </div>
+                        <div class="service-content">
+                            <h3>Audio & Web Applications</h3>
+                            <p>Professional-grade audio synthesis using Web Audio API and Tone.js. Interactive music applications and real-time audio processing.</p>
+                            <ul class="service-tags">
+                                <li>Web Audio API</li>
+                                <li>Tone.js</li>
+                                <li>React</li>
+                            </ul>
+                        </div>
+                        <div class="service-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </div>
+                    </article>
 
-                <!-- Security/Bug Bounty -->
-                <div class="service-card" data-hover>
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                            <path d="m9 12 2 2 4-4"/>
-                        </svg>
-                    </div>
-                    <h3>Security & Code Audit</h3>
-                    <p>Ethical security assessments and code quality audits. Bug bounty services through HackerOne and BugCrowd. Harden your applications against vulnerabilities.</p>
-                </div>
+                    <article class="service-card" data-hover data-animate="fade-up" data-delay="200">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 12h24v24H12z"/>
+                                <path d="M12 20h24M20 12v24"/>
+                                <circle cx="16" cy="16" r="2"/>
+                                <circle cx="32" cy="32" r="2"/>
+                            </svg>
+                        </div>
+                        <div class="service-content">
+                            <h3>NLP & Automation</h3>
+                            <p>Natural language processing for document extraction, intent classification, and entity recognition. Automate complex workflows with intelligent text analysis.</p>
+                            <ul class="service-tags">
+                                <li>NLP</li>
+                                <li>OCR</li>
+                                <li>Automation</li>
+                            </ul>
+                        </div>
+                        <div class="service-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </div>
+                    </article>
 
-                <!-- Node.js/Backend -->
-                <div class="service-card" data-hover>
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <circle cx="12" cy="12" r="3"/>
-                            <path d="M12 1v6m0 6v6m4.22-10.22l4.24-4.24M6.34 6.34L2.1 2.1m17.8 17.8l-4.24-4.24M6.34 17.66l-4.24 4.24M23 12h-6m-6 0H1m20.24 4.22l-4.24-4.24M6.34 17.66l-4.24 4.24"/>
-                        </svg>
-                    </div>
-                    <h3>Node.js & APIs</h3>
-                    <p>Scalable server-side applications, BFF (Backend-for-Frontend) architecture, and real-time systems using Node.js, Express, and modern API patterns.</p>
+                    <article class="service-card" data-hover data-animate="fade-up">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M24 4L4 12v8c0 12 8.5 20.67 20 24 11.5-3.33 20-12 20-24v-8L24 4z"/>
+                                <path d="M16 24l6 6 12-12"/>
+                            </svg>
+                        </div>
+                        <div class="service-content">
+                            <h3>Security & Code Audit</h3>
+                            <p>Ethical security assessments and code quality audits. Bug bounty services through HackerOne and BugCrowd. Harden applications against vulnerabilities.</p>
+                            <ul class="service-tags">
+                                <li>HackerOne</li>
+                                <li>BugCrowd</li>
+                                <li>Audits</li>
+                            </ul>
+                        </div>
+                        <div class="service-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </div>
+                    </article>
+
+                    <article class="service-card" data-hover data-animate="fade-up" data-delay="100">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="24" cy="24" r="6"/>
+                                <path d="M24 4v6M24 38v6M4 24h6M38 24h6"/>
+                                <path d="M9.86 9.86l4.24 4.24M33.9 33.9l4.24 4.24M9.86 38.14l4.24-4.24M33.9 14.1l4.24-4.24"/>
+                            </svg>
+                        </div>
+                        <div class="service-content">
+                            <h3>Node.js & APIs</h3>
+                            <p>Scalable server-side applications, BFF architecture, and real-time systems using Node.js, Express, and modern API patterns.</p>
+                            <ul class="service-tags">
+                                <li>Node.js</li>
+                                <li>Express</li>
+                                <li>GraphQL</li>
+                            </ul>
+                        </div>
+                        <div class="service-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </div>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <!-- Portfolio Section -->
-        <section id="portfolio" class="grid-layout">
-            <div class="section-header">
-                <h2>// SELECTED WORK</h2>
-                <div class="separator"></div>
-            </div>
+        <!-- Work Section -->
+        <section id="work" class="work">
+            <div class="section-container">
+                <div class="section-header" data-animate="fade-up">
+                    <span class="section-eyebrow">Portfolio</span>
+                    <h2 class="section-title">Selected Work</h2>
+                    <p class="section-desc">A showcase of projects spanning mobile games, web applications, and AI-powered systems.</p>
+                </div>
 
-            <div class="portfolio-grid">
-                <!-- Litania Terminalis -->
-                <a href="https://play.google.com/store/apps/details?id=com.lambdaapps.litaniaterminalis" target="_blank"
-                    class="project-link">
-                    <article class="project-card" data-hover>
-                        <div class="project-image-placeholder litania-bg">
-                            <div class="project-tag">Mobile Game</div>
-                            <div class="project-visual">
-                                <span class="ascii-art">@</span>
+                <div class="work-grid">
+                    <article class="work-card work-card-large" data-hover data-animate="fade-up">
+                        <a href="https://play.google.com/store/apps/details?id=com.lambdaapps.litaniaterminalis" target="_blank" class="work-link">
+                            <div class="work-image">
+                                <div class="work-placeholder litania-bg">
+                                    <span class="work-ascii">@</span>
+                                </div>
+                                <div class="work-overlay"></div>
                             </div>
-                        </div>
-                        <div class="project-info">
-                            <h3>LITANIA TERMINALIS</h3>
-                            <p>A roguelike adventure with ASCII aesthetics. Strategic gameplay meets retro terminal visuals.</p>
-                        </div>
+                            <div class="work-content">
+                                <span class="work-category">Mobile Game</span>
+                                <h3 class="work-title">Litania Terminalis</h3>
+                                <p class="work-desc">A roguelike adventure with ASCII aesthetics. Strategic gameplay meets retro terminal visuals.</p>
+                                <div class="work-action">
+                                    <span>View Project</span>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </a>
                     </article>
-                </a>
 
-                <!-- Neon Vector -->
-                <a href="https://play.google.com/store/apps/details?id=com.silentsum.game" target="_blank" class="project-link">
-                    <article class="project-card" data-hover>
-                        <div class="project-image-placeholder neon-bg">
-                            <div class="project-tag">Mobile Game</div>
-                            <div class="project-visual">
-                                <svg viewBox="0 0 100 100" class="neon-triangle">
-                                    <polygon points="50,15 90,85 10,85" fill="none" stroke="currentColor" stroke-width="2"/>
-                                </svg>
+                    <article class="work-card" data-hover data-animate="fade-up" data-delay="100">
+                        <a href="https://play.google.com/store/apps/details?id=com.silentsum.game" target="_blank" class="work-link">
+                            <div class="work-image">
+                                <div class="work-placeholder neon-bg">
+                                    <svg viewBox="0 0 100 100" class="work-triangle">
+                                        <polygon points="50,15 90,85 10,85" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                                <div class="work-overlay"></div>
                             </div>
-                        </div>
-                        <div class="project-info">
-                            <h3>NEON VECTOR</h3>
-                            <p>Minimalist arcade experience with geometric precision. Available now on Google Play.</p>
-                        </div>
+                            <div class="work-content">
+                                <span class="work-category">Mobile Game</span>
+                                <h3 class="work-title">Neon Vector</h3>
+                                <p class="work-desc">Minimalist arcade experience with geometric precision.</p>
+                                <div class="work-action">
+                                    <span>View Project</span>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </a>
                     </article>
-                </a>
+                </div>
             </div>
         </section>
 
         <!-- About Section -->
-        <section id="about" class="grid-layout">
-            <div class="section-header">
-                <h2>// ABOUT</h2>
-                <div class="separator"></div>
-            </div>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>Lambda Apps is led by a senior developer with over a decade of experience in building and scaling software products. We specialize in the Python ecosystem with deep expertise in integrating AI technologies into production environments.</p>
-                    <p>Our approach combines technical excellence with open-source values. We believe in code that is as maintainable and efficient as it is functional—delivering solutions that stand the test of time.</p>
-                </div>
-                <div class="about-stats">
-                    <div class="stat">
-                        <span class="stat-number">10+</span>
-                        <span class="stat-label">Years Experience</span>
+        <section id="about" class="about">
+            <div class="section-container">
+                <div class="about-grid">
+                    <div class="about-content" data-animate="fade-up">
+                        <span class="section-eyebrow">About</span>
+                        <h2 class="section-title">Building the Future with Code</h2>
+                        <div class="about-text">
+                            <p>Lambda Apps is led by a senior developer with over a decade of experience in building and scaling software products. We specialize in the Python ecosystem with deep expertise in integrating AI technologies into production environments.</p>
+                            <p>Our approach combines technical excellence with open-source values. We believe in code that is as maintainable and efficient as it is functional—delivering solutions that stand the test of time.</p>
+                        </div>
+                        <div class="about-cta">
+                            <a href="https://github.com/ericsonwillians" target="_blank" class="btn btn-outline" data-hover>
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                                <span>GitHub Profile</span>
+                            </a>
+                        </div>
                     </div>
-                    <div class="stat">
-                        <span class="stat-number">AI/LLM</span>
-                        <span class="stat-label">Integration Expert</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">AWS/Azure</span>
-                        <span class="stat-label">Cloud Architecture</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">Python</span>
-                        <span class="stat-label">Ecosystem Specialist</span>
+
+                    <div class="about-stats" data-animate="stagger-up">
+                        <div class="about-stat">
+                            <span class="about-stat-number">10+</span>
+                            <span class="about-stat-label">Years of Experience</span>
+                        </div>
+                        <div class="about-stat">
+                            <span class="about-stat-number">AI/LLM</span>
+                            <span class="about-stat-label">Integration Expert</span>
+                        </div>
+                        <div class="about-stat">
+                            <span class="about-stat-number">AWS/Azure</span>
+                            <span class="about-stat-label">Cloud Certified</span>
+                        </div>
+                        <div class="about-stat">
+                            <span class="about-stat-number">Python</span>
+                            <span class="about-stat-label">Ecosystem Specialist</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Contact Section -->
-        <section id="contact" class="grid-layout">
-            <div class="section-header">
-                <h2>// GET IN TOUCH</h2>
-                <div class="separator"></div>
-            </div>
-            <div class="contact-content">
-                <p class="contact-text">Have a project in mind? Let's discuss how we can help bring your ideas to life.</p>
-                <a href="mailto:support@lambdaapps.dev" class="big-link" data-hover>support@lambdaapps.dev</a>
-                
-                <div class="contact-methods">
-                    <a href="https://wa.me/5535984497818" target="_blank" class="contact-method" data-hover>
-                        <div class="contact-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        <section id="contact" class="contact">
+            <div class="section-container">
+                <div class="contact-wrapper">
+                    <div class="contact-content" data-animate="fade-up">
+                        <span class="section-eyebrow">Get in Touch</span>
+                        <h2 class="section-title">Let's Build Something Great</h2>
+                        <p class="contact-desc">Have a project in mind? Let's discuss how we can help bring your ideas to life.</p>
+                        
+                        <a href="mailto:support@lambdaapps.dev" class="contact-email" data-hover>
+                            support@lambdaapps.dev
+                        </a>
+                    </div>
+
+                    <div class="contact-methods" data-animate="stagger-up">
+                        <a href="https://wa.me/5535984497818" target="_blank" class="contact-method" data-hover>
+                            <div class="contact-icon-wrapper">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                                </svg>
+                            </div>
+                            <div class="contact-info">
+                                <span class="contact-label">WhatsApp</span>
+                                <span class="contact-value">+55 35 98449-7818</span>
+                            </div>
+                            <svg class="contact-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
                             </svg>
-                        </div>
-                        <div class="contact-details">
-                            <span class="contact-label">WhatsApp</span>
-                            <span class="contact-value">+55 35 98449-7818</span>
-                        </div>
-                    </a>
-                    
-                    <a href="https://github.com/ericsonwillians" target="_blank" class="contact-method" data-hover>
-                        <div class="contact-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </a>
+
+                        <a href="https://github.com/ericsonwillians" target="_blank" class="contact-method" data-hover>
+                            <div class="contact-icon-wrapper">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                            </div>
+                            <div class="contact-info">
+                                <span class="contact-label">GitHub</span>
+                                <span class="contact-value">ericsonwillians</span>
+                            </div>
+                            <svg class="contact-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
                             </svg>
-                        </div>
-                        <div class="contact-details">
-                            <span class="contact-label">GitHub</span>
-                            <span class="contact-value">ericsonwillians</span>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="grid-layout">
-        <div class="footer-content">
-            <div class="copyright">© 2026 Lambda Apps. All rights reserved.</div>
-            <div class="footer-links">
-                <a href="mailto:support@lambdaapps.dev">support@lambdaapps.dev</a>
-                <span class="footer-separator">·</span>
-                <a href="https://wa.me/5535984497818" target="_blank">+55 35 98449-7818</a>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="section-container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="footer-logo">Λ</span>
+                    <span class="footer-name">Lambda Apps</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#services">Services</a>
+                    <a href="#work">Work</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-meta">
+                    <span>© 2026 Lambda Apps</span>
+                    <span class="footer-separator">·</span>
+                    <a href="mailto:support@lambdaapps.dev">support@lambdaapps.dev</a>
+                </div>
             </div>
         </div>
     </footer>
