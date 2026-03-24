@@ -1,0 +1,23 @@
+{
+  "name": "lambda-apps-website",
+  "version": "1.0.0",
+  "description": "Lambda Apps - Fullstack Development Services Website",
+  "scripts": {
+    "start": "npx serve . -l 3000 --no-clipboard",
+    "dev": "npx serve . -l 3000 --no-clipboard --debug",
+    "build": "echo 'Static site - no build step required'",
+    "preview": "npm run start"
+  },
+  "keywords": [
+    "fullstack",
+    "development",
+    "react",
+    "python",
+    "nodejs"
+  ],
+  "author": "Lambda Apps",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}
