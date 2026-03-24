@@ -731,12 +731,25 @@ p {
     height: 100%;
     pointer-events: none;
     z-index: 1;
-    opacity: 0.15;
+    opacity: 0.12;
+    /* Ensure GPU acceleration on mobile */
+    transform: translateZ(0);
+    will-change: transform;
 }
 
+/* Mobile optimizations */
 @media (max-width: 768px) {
     .lambda-rain {
-        opacity: 0.08;
+        opacity: 0.06;
+        /* Reduce layer complexity on mobile */
+        image-rendering: optimizeSpeed;
+    }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .lambda-rain {
+        display: none !important;
     }
 }
 

@@ -674,114 +674,171 @@
     });
 
     // ========================================================================
-    // Lambda Rain - Matrix Style Animation
+    // Lambda Rain - Matrix Style Animation (Mobile-Optimized)
     // ========================================================================
     const lambdaCanvas = document.getElementById('lambdaRain');
     
-    if (lambdaCanvas && !isTouchDevice) {
+    if (lambdaCanvas) {
         const ctx = lambdaCanvas.getContext('2d');
         
-        // Set canvas size
-        function resizeCanvas() {
-            const hero = document.querySelector('.hero');
-            if (hero) {
-                lambdaCanvas.width = hero.offsetWidth;
-                lambdaCanvas.height = hero.offsetHeight;
-            }
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas, { passive: true });
+        // Check for reduced motion preference and low-end devices
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
         
-        // Lambda rain configuration
-        const characters = ['Λ', 'λ', 'Λ', 'λ'];
-        const fontSize = 14;
-        const columns = Math.floor(lambdaCanvas.width / fontSize);
-        const drops = [];
-        
-        // Initialize drops
-        for (let i = 0; i < columns; i++) {
-            drops[i] = Math.random() * -100; // Start above canvas at random positions
-        }
-        
-        let frameCount = 0;
-        let isActive = true;
-        let animationId = null;
-        
-        function draw() {
-            if (!isActive) return;
+        if (prefersReducedMotion) {
+            // Don't run animation if user prefers reduced motion
+            lambdaCanvas.style.display = 'none';
+        } else {
+            // Mobile optimizations
+            const isMobile = window.innerWidth <= 768;
+            const pixelRatio = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
             
-            // Only render every 2nd frame for performance (30fps)
-            frameCount++;
-            if (frameCount % 2 !== 0) {
-                animationId = requestAnimationFrame(draw);
-                return;
-            }
-            
-            // Semi-transparent black for trail effect
-            ctx.fillStyle = 'rgba(5, 5, 5, 0.05)';
-            ctx.fillRect(0, 0, lambdaCanvas.width, lambdaCanvas.height);
-            
-            ctx.fillStyle = '#00e5c0';
-            ctx.font = `${fontSize}px "JetBrains Mono", monospace`;
-            
-            for (let i = 0; i < drops.length; i++) {
-                // Randomly skip some drops for varied effect
-                if (Math.random() > 0.98) continue;
-                
-                const text = characters[Math.floor(Math.random() * characters.length)];
-                const x = i * fontSize;
-                const y = drops[i] * fontSize;
-                
-                // Vary opacity based on position for depth
-                const opacity = Math.max(0.1, 1 - (y / lambdaCanvas.height));
-                ctx.globalAlpha = opacity * 0.5;
-                
-                ctx.fillText(text, x, y);
-                ctx.globalAlpha = 1;
-                
-                // Reset drop when it reaches bottom or randomly
-                if (y > lambdaCanvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
+            // Set canvas size with proper pixel ratio for crisp rendering
+            function resizeCanvas() {
+                const hero = document.querySelector('.hero');
+                if (hero) {
+                    const width = hero.offsetWidth;
+                    const height = hero.offsetHeight;
+                    
+                    // Set actual canvas size accounting for pixel ratio
+                    lambdaCanvas.width = Math.floor(width * pixelRatio);
+                    lambdaCanvas.height = Math.floor(height * pixelRatio);
+                    
+                    // Set display size
+                    lambdaCanvas.style.width = width + 'px';
+                    lambdaCanvas.style.height = height + 'px';
+                    
+                    // Scale context for high-DPI displays
+                    ctx.scale(pixelRatio, pixelRatio);
                 }
+            }
+            resizeCanvas();
+            
+            // Debounced resize handler for mobile
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(resizeCanvas, 250);
+            }, { passive: true });
+            
+            // Lambda rain configuration - adjusted for mobile
+            const characters = ['Λ', 'λ'];
+            const fontSize = isMobile ? 12 : 14;
+            const maxColumns = isMobile ? (isLowEndDevice ? 20 : 30) : 50; // Limit columns on mobile
+            
+            let columns = Math.min(Math.floor((lambdaCanvas.width / pixelRatio) / fontSize), maxColumns);
+            const drops = [];
+            
+            // Initialize drops
+            function initDrops() {
+                columns = Math.min(Math.floor((lambdaCanvas.width / pixelRatio) / fontSize), maxColumns);
+                drops.length = 0;
+                for (let i = 0; i < columns; i++) {
+                    drops[i] = Math.random() * -50;
+                }
+            }
+            initDrops();
+            
+            let frameCount = 0;
+            let isActive = true;
+            let animationId = null;
+            let lastTime = 0;
+            
+            // Target 30fps on mobile, 60fps on desktop
+            const targetFPS = isMobile ? 30 : 60;
+            const frameInterval = 1000 / targetFPS;
+            
+            function draw(currentTime) {
+                if (!isActive) return;
                 
-                drops[i] += 0.5; // Slow fall speed
+                animationId = requestAnimationFrame(draw);
+                
+                // Throttle to target FPS
+                const delta = currentTime - lastTime;
+                if (delta < frameInterval) return;
+                lastTime = currentTime - (delta % frameInterval);
+                
+                // Get display dimensions
+                const displayWidth = lambdaCanvas.width / pixelRatio;
+                const displayHeight = lambdaCanvas.height / pixelRatio;
+                
+                // Semi-transparent clear for trail effect
+                ctx.fillStyle = 'rgba(5, 5, 5, 0.08)';
+                ctx.fillRect(0, 0, displayWidth, displayHeight);
+                
+                ctx.fillStyle = '#00e5c0';
+                ctx.font = `${fontSize}px "JetBrains Mono", monospace`;
+                
+                for (let i = 0; i < drops.length; i++) {
+                    // Skip frames randomly for performance
+                    if (Math.random() > 0.9) continue;
+                    
+                    const text = characters[Math.floor(Math.random() * characters.length)];
+                    const x = i * fontSize;
+                    const y = drops[i] * fontSize;
+                    
+                    if (y > 0 && y < displayHeight) {
+                        // Vary opacity based on position
+                        const opacity = Math.max(0.05, 0.4 - (y / displayHeight) * 0.3);
+                        ctx.globalAlpha = opacity;
+                        ctx.fillText(text, x, y);
+                    }
+                    
+                    ctx.globalAlpha = 1;
+                    
+                    // Reset drop when it reaches bottom
+                    if (y > displayHeight && Math.random() > 0.98) {
+                        drops[i] = 0;
+                    }
+                    
+                    // Slower fall speed on mobile for better battery
+                    drops[i] += isMobile ? 0.3 : 0.5;
+                }
             }
             
+            // Start animation
             animationId = requestAnimationFrame(draw);
-        }
-        
-        // Start animation
-        draw();
-        
-        // Pause when tab is hidden
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                isActive = false;
-                cancelAnimationFrame(animationId);
-            } else {
-                isActive = true;
-                draw();
-            }
-        });
-        
-        // Pause when hero is not visible
-        const heroObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    if (!isActive) {
-                        isActive = true;
-                        draw();
-                    }
-                } else {
+            
+            // Handle visibility changes
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
                     isActive = false;
                     cancelAnimationFrame(animationId);
+                } else {
+                    isActive = true;
+                    lastTime = performance.now();
+                    animationId = requestAnimationFrame(draw);
                 }
-            });
-        }, { threshold: 0.1 });
-        
-        const heroSection = document.querySelector('.hero');
-        if (heroSection) {
-            heroObserver.observe(heroSection);
+            }, { passive: true });
+            
+            // Pause when hero is not visible (use lower threshold on mobile)
+            const heroObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (!isActive) {
+                            isActive = true;
+                            lastTime = performance.now();
+                            animationId = requestAnimationFrame(draw);
+                        }
+                    } else {
+                        isActive = false;
+                        cancelAnimationFrame(animationId);
+                    }
+                });
+            }, { threshold: isMobile ? 0.05 : 0.1 });
+            
+            const heroSection = document.querySelector('.hero');
+            if (heroSection) {
+                heroObserver.observe(heroSection);
+            }
+            
+            // Re-initialize on orientation change (important for Android)
+            window.addEventListener('orientationchange', () => {
+                setTimeout(() => {
+                    resizeCanvas();
+                    initDrops();
+                }, 100);
+            }, { passive: true });
         }
     }
 
