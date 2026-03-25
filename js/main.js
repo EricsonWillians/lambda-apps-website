@@ -841,7 +841,7 @@
     console.log('%c GitHub: @ericsonwillians ', 'color: #888; font-size: 11px;');
 
     // ========================================================================
-    // Video Ad - Scroll Triggered Autoplay
+    // Video Ad - Scroll Triggered Autoplay with Sound
     // ========================================================================
     (function initVideoAd() {
         const video = document.getElementById('adVideo');
@@ -852,26 +852,83 @@
         
         let hasPlayedOnce = false;
         
+        // Create play overlay for user interaction (required for audio)
+        const playOverlay = document.createElement('div');
+        playOverlay.className = 'video-play-overlay';
+        playOverlay.innerHTML = `
+            <button class="video-play-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <span>Click to Watch</span>
+            </button>
+        `;
+        videoContainer.appendChild(playOverlay);
+        
+        const playBtn = playOverlay.querySelector('.video-play-btn');
+        
+        // Function to play video with sound
+        function playWithSound() {
+            video.muted = false;
+            video.volume = 1;
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    playOverlay.style.opacity = '0';
+                    playOverlay.style.pointerEvents = 'none';
+                    updateMuteIcon();
+                }).catch(err => {
+                    console.log('Playback failed:', err.message);
+                });
+            }
+        }
+        
+        // Function to update mute icon
+        function updateMuteIcon() {
+            if (!muteBtn) return;
+            muteBtn.querySelector('.icon-mute').style.display = video.muted ? 'block' : 'none';
+            muteBtn.querySelector('.icon-unmute').style.display = video.muted ? 'none' : 'block';
+        }
+        
+        // Click handler for play button
+        playBtn.addEventListener('click', playWithSound);
+        
         // Mute toggle functionality
         if (muteBtn) {
             muteBtn.addEventListener('click', () => {
                 video.muted = !video.muted;
-                muteBtn.querySelector('.icon-mute').style.display = video.muted ? 'block' : 'none';
-                muteBtn.querySelector('.icon-unmute').style.display = video.muted ? 'none' : 'block';
+                updateMuteIcon();
             });
         }
         
-        // Scroll-triggered autoplay using IntersectionObserver
+        // Scroll-triggered autoplay with sound attempt
         if ('IntersectionObserver' in window) {
             const videoObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // Video is visible - play it
-                        video.play().catch(err => {
-                            // Autoplay blocked by browser - user needs to interact first
-                            console.log('Video autoplay blocked:', err.message);
-                        });
                         videoContainer?.classList.add('visible');
+                        
+                        // Try to autoplay with sound
+                        video.muted = false;
+                        video.volume = 1;
+                        const playPromise = video.play();
+                        
+                        if (playPromise !== undefined) {
+                            playPromise.then(() => {
+                                // Success! Video playing with sound
+                                playOverlay.style.opacity = '0';
+                                playOverlay.style.pointerEvents = 'none';
+                                updateMuteIcon();
+                            }).catch(() => {
+                                // Browser blocked autoplay with sound
+                                // Show the play overlay for user interaction
+                                video.muted = true;
+                                playOverlay.style.opacity = '1';
+                                playOverlay.style.pointerEvents = 'auto';
+                                // Try muted autoplay as fallback
+                                video.play().catch(() => {});
+                            });
+                        }
                         hasPlayedOnce = true;
                     } else {
                         // Video is not visible - pause it
@@ -880,26 +937,32 @@
                     }
                 });
             }, { 
-                threshold: 0.3,  // Play when 30% visible
+                threshold: 0.3,
                 rootMargin: '0px' 
             });
             
             videoObserver.observe(video);
         } else {
-            // Fallback for older browsers - just play
-            video.play().catch(() => {});
+            // Fallback for older browsers
+            video.muted = false;
+            video.play().catch(() => {
+                playOverlay.style.opacity = '1';
+            });
         }
         
-        // Pause when tab is hidden to save resources
+        // Pause when tab is hidden
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
                 video.pause();
             } else {
-                // Check if video is still in viewport before resuming
                 const rect = video.getBoundingClientRect();
                 const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
                 if (isVisible) {
-                    video.play().catch(() => {});
+                    video.muted = false;
+                    video.play().catch(() => {
+                        playOverlay.style.opacity = '1';
+                        playOverlay.style.pointerEvents = 'auto';
+                    });
                 }
             }
         });
