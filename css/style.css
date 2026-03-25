@@ -1306,6 +1306,88 @@ p {
 }
 
 /* =================================================================
+   Video Ad Section - Cinematic Display
+   ================================================================= */
+.video-ad {
+    background: var(--color-bg);
+    padding: var(--space-xl) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    .video-ad {
+        padding: var(--space-4xl) 0;
+    }
+}
+
+.video-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 25px 80px -20px rgba(0, 0, 0, 0.6);
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.video-overlay {
+    position: absolute;
+    bottom: var(--space-md);
+    right: var(--space-md);
+    z-index: 10;
+}
+
+.video-mute-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-out-quart);
+}
+
+.video-mute-btn:hover {
+    background: rgba(0, 229, 192, 0.2);
+    border-color: var(--color-accent);
+    transform: scale(1.1);
+}
+
+.video-mute-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Subtle glow effect around video */
+.video-container::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, rgba(0, 229, 192, 0.3) 0%, transparent 50%, rgba(0, 212, 255, 0.3) 100%);
+    border-radius: calc(var(--border-radius) + 2px);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.video-container.visible::before {
+    opacity: 1;
+}
+
+/* =================================================================
    GitHub Projects Section
    ================================================================= */
 .github {

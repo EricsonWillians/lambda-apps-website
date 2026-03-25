@@ -376,6 +376,28 @@
             </div>
         </section>
 
+        <!-- Video Ad Section -->
+        <section id="video-ad" class="video-ad">
+            <div class="video-container" data-animate="fade-up">
+                <video id="adVideo" muted playsinline loop poster="assets/videos/ad-poster.jpg">
+                    <source src="assets/videos/ad.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay">
+                    <button class="video-mute-btn" id="muteBtn" aria-label="Toggle sound">
+                        <svg class="icon-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                            <line x1="23" y1="9" x2="17" y2="15"/>
+                            <line x1="17" y1="9" x2="23" y2="15"/>
+                        </svg>
+                        <svg class="icon-unmute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+                            <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
         <!-- GitHub Projects Section -->
         <section id="github" class="github">
             <div class="section-container">

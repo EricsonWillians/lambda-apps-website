@@ -840,4 +840,70 @@
     console.log('%c Mobile-Optimized Experience ', 'color: #00d4aa; font-size: 12px;');
     console.log('%c GitHub: @ericsonwillians ', 'color: #888; font-size: 11px;');
 
+    // ========================================================================
+    // Video Ad - Scroll Triggered Autoplay
+    // ========================================================================
+    (function initVideoAd() {
+        const video = document.getElementById('adVideo');
+        const muteBtn = document.getElementById('muteBtn');
+        const videoContainer = document.querySelector('.video-container');
+        
+        if (!video) return;
+        
+        let hasPlayedOnce = false;
+        
+        // Mute toggle functionality
+        if (muteBtn) {
+            muteBtn.addEventListener('click', () => {
+                video.muted = !video.muted;
+                muteBtn.querySelector('.icon-mute').style.display = video.muted ? 'block' : 'none';
+                muteBtn.querySelector('.icon-unmute').style.display = video.muted ? 'none' : 'block';
+            });
+        }
+        
+        // Scroll-triggered autoplay using IntersectionObserver
+        if ('IntersectionObserver' in window) {
+            const videoObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Video is visible - play it
+                        video.play().catch(err => {
+                            // Autoplay blocked by browser - user needs to interact first
+                            console.log('Video autoplay blocked:', err.message);
+                        });
+                        videoContainer?.classList.add('visible');
+                        hasPlayedOnce = true;
+                    } else {
+                        // Video is not visible - pause it
+                        video.pause();
+                        videoContainer?.classList.remove('visible');
+                    }
+                });
+            }, { 
+                threshold: 0.3,  // Play when 30% visible
+                rootMargin: '0px' 
+            });
+            
+            videoObserver.observe(video);
+        } else {
+            // Fallback for older browsers - just play
+            video.play().catch(() => {});
+        }
+        
+        // Pause when tab is hidden to save resources
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                video.pause();
+            } else {
+                // Check if video is still in viewport before resuming
+                const rect = video.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                if (isVisible) {
+                    video.play().catch(() => {});
+                }
+            }
+        });
+        
+    })();
+
 })();
