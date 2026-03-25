@@ -698,7 +698,7 @@
         const config = {
             fontSize: 14,
             chars: ['Λ', 'λ'],
-            color: '#00e5c0',
+            color: '#00e5bf7a',
             trailAlpha: 0.05,
             baseAlpha: 0.4,
             fallSpeed: 0.5,
